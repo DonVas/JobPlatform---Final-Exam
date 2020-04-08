@@ -6,74 +6,91 @@
 <h1>@this.ViewData["Title"]</h1>
 
 <form id="userForm" method="post"></form>
-<table class="table">
-    <tr>
-        <th>User Name</th>
-        <th>Full Name</th>
-        @foreach (var role in Model.Roles)
-        {
-            <th>@role.Name</th>
-        }
-    </tr>
+<div class="container">
+    <input class="form-control mb-4" id="tableSearch" type="text" placeholder="Search User by User Name">
 
-    @foreach (var user in this.Model.Users)
-    {
-        <tr id="@user.Id">
-            <td><a href="@user.Id" target="_blank">@user.UserName</a></td>
-            <td>@user.FullName</td>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Full Name</th>
+                        @foreach (var role in Model.Roles)
+                        {
+                            <th>@role.Name</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    @foreach (var user in this.Model.Users)
+                    {
+                        <tr id="@user.Id">
+                            <td><a href="@user.Id" target="_blank">@user.UserName</a></td>
+                            <td>@user.FullName</td>
 
-            @foreach (var roleId in Model.Roles)
-            {
-                @if (user.RolesName.FirstOrDefault(x => x.Name == roleId.Name) != null)
-                {
-                    <td>
-                        <a href="#" style="color: green" onclick="changeRole('@user.Id', '@roleId.Id', false),reresh()">
-                            <div>
-                                 <i  class="fa fa-check"></i>
-                            </div>
-                        </a>                  
-                    </td>
+                            @foreach (var roleId in Model.Roles)
+                            {
+                                @if (user.RolesName.FirstOrDefault(x => x.Name == roleId.Name) != null)
+                                {
+                                    <td>
+                                        <a href="#" style="color: green" onclick="changeRole('@user.Id', '@roleId.Id', false),reresh()">
+                                            <div>
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </a>
+                                    </td>
 
-                }
-                else
-                {
-                    <td>
-                        <a href="#" style="color: red" onclick="changeRole('@user.Id', '@roleId.Id', true),reresh()">
-                            <div>
-                              <i class="fa fa-times"></i>
-                            </div>
-                        </a>
-                    </td>
-                }
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a href="#" style="color: red" onclick="changeRole('@user.Id', '@roleId.Id', true),reresh()">
+                                            <div>
+                                                <i class="fa fa-times"></i>
+                                            </div>
+                                        </a>
+                                    </td>
+                                }
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+</div>
+
+ @section Scripts {
+                <script>
+
+                    function changeRole(userId, roleId, onOff) {
+                        var token = $("#userForm input[name=__RequestVerificationToken]").val();
+                        var json = { userId: userId, roleId: roleId, onOff: onOff };
+
+                        $.ajax({
+                            url: "/api/role",
+                            type: "POST",
+                            data: JSON.stringify(json),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            headers: { 'X-CSRF-TOKEN': token },
+                            success: $.ready.then.call(reresh())
+
+                        });
+
+                        function reresh() {
+                            setTimeout(function () {// wait for 5 secs(2)
+                                location.reload(); // then reload the page.(3)
+                            }, 1000);
+                        }
+                    }
+
+                    $(document).ready(function () {
+                        $("#tableSearch").on("keyup", function () {
+                            var value = $(this).val().toLowerCase();
+                            $("#userTable tr").filter(function () {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
+
+                </script>
             }
-
-        </tr>
-    }
-</table>
-
-@section Scripts {
-    <script>
-
-        function changeRole(userId, roleId, onOff) {
-            var token = $("#userForm input[name=__RequestVerificationToken]").val();
-            var json = { userId: userId, roleId: roleId, onOff: onOff };
-
-            $.ajax({
-                     url: "/api/role",
-                     type: "POST",
-                     data: JSON.stringify(json),
-                     contentType: "application/json; charset=utf-8",
-                     dataType: "json",
-                headers: { 'X-CSRF-TOKEN': token },
-                success: $.ready.then.call(reresh())                 
-                
-            });
-
-            function reresh() {
-                setTimeout(function () {// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
-                }, 1000); 
-            }
-        }
-    </script>
-}
