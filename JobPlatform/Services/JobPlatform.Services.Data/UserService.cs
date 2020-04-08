@@ -40,6 +40,18 @@
 
         public IEnumerable<UserViewModel> GetAllUsers()
         {
+            //int? take = null, int skip = 0
+            //var query = this.userRepository.All()
+            //    .OrderByDescending(x => x.UserName)
+            //    .Skip(skip);
+
+            //if (take.HasValue)
+            //{
+            //    query = query.Take(take.Value);
+            //}
+
+            //query.To<UserViewModel>().ToList();
+
             var users = this.GetAllUsers<UserViewModel>();
             var roles = this.roleRepository.All().ToList();
             var results = new List<UserViewModel>();

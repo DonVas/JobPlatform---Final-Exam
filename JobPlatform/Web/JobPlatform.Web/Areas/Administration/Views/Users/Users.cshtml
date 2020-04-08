@@ -26,7 +26,6 @@
                         <tr id="@user.Id">
                             <td><a href="@user.Id" target="_blank">@user.UserName</a></td>
                             <td>@user.FullName</td>
-
                             @foreach (var roleId in Model.Roles)
                             {
                                 @if (user.RolesName.FirstOrDefault(x => x.Name == roleId.Name) != null)
@@ -38,7 +37,6 @@
                                             </div>
                                         </a>
                                     </td>
-
                                 }
                                 else
                                 {

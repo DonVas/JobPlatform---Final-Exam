@@ -9,6 +9,10 @@
 
     public class UsersViewModel
     {
+        public int CurrentPage { get; set; }
+
+        public int PagesCount { get; set; }
+
         public IEnumerable<UserViewModel> Users { get; set; }
 
         public IEnumerable<RolesViewModel> Roles { get; set; }
