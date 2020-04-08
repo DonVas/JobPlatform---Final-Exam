@@ -3,6 +3,7 @@ namespace JobPlatform.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using JobPlatform.Data.Common.Models;
 
@@ -17,6 +18,21 @@ namespace JobPlatform.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        [MinLength(2)]
+        [MaxLength(20)]
+        public string FirstName { get; set; }
+
+        [MinLength(2)]
+        [MaxLength(20)]
+        public string MiddleName { get; set; }
+
+        [MinLength(2)]
+        [MaxLength(20)]
+        public string FamilyName { get; set; }
+
+        [Url]
+        public string ProfilePicture { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

@@ -1,7 +1,26 @@
-﻿@model JobPlatform.Web.ViewModels.Administration.Dashboard.IndexViewModel
+﻿@model JobPlatform.Web.ViewModels.Administration.Dashboard.UsersViewModel
 @{
     this.ViewData["Title"] = "Admin dashboard";
 }
 
 <h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+
+<form id="userForm" method="post"></form>
+<table class="table">
+
+        <tr>
+            <td>
+            <a class="nav-link text-dark" asp-area="Administration" asp-controller="Users" asp-action="Users">Users</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </td>
+        </tr>
+</table>

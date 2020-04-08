@@ -6,7 +6,6 @@
 
     using JobPlatform.Common;
     using JobPlatform.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +15,11 @@
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-            await SeedRoleAsync(roleManager, GlobalConstants.AdministratorRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.Administrator);
+            await SeedRoleAsync(roleManager, GlobalConstants.Employer);
+            await SeedRoleAsync(roleManager, GlobalConstants.Guest);
+            await SeedRoleAsync(roleManager, GlobalConstants.Moderator);
+            await SeedRoleAsync(roleManager, GlobalConstants.UserRole);
         }
 
         private static async Task SeedRoleAsync(RoleManager<ApplicationRole> roleManager, string roleName)

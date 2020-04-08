@@ -1,5 +1,6 @@
 ﻿namespace JobPlatform.Web
 {
+    using System;
     using System.Reflection;
 
     using JobPlatform.Data;
@@ -12,10 +13,10 @@
     using JobPlatform.Services.Mapping;
     using JobPlatform.Services.Messaging;
     using JobPlatform.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,18 @@
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddResponseCaching();
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+            });
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
@@ -46,7 +59,16 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
+            });
+
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
+
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
@@ -58,7 +80,10 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRolesService, RolesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

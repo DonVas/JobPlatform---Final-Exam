@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200404170437_AddingUserExtentions.cs" />
+    <Compile Remove="Migrations\20200404170437_AddingUserExtentions.Designer.cs" />
+    <Compile Remove="Migrations\20200405141435_ChangingInputMOdels.cs" />
+    <Compile Remove="Migrations\20200405141435_ChangingInputMOdels.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
 
