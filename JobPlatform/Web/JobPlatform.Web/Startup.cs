@@ -61,7 +61,7 @@
 
             services.AddControllersWithViews(options =>
             {
-                //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
             });
 
             services.AddAntiforgery(options =>

@@ -6,22 +6,6 @@
 @{
     var url = this.UserManager.GetUserAsync(this.User).Result;
 }
-<style>
-    .avatar {
-        vertical-align: middle;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        border-left-width: 1px;
-        border-bottom-width: 1px;
-        border-right-width: 1px;
-        border-top-width: 1px;
-        padding-left: 0px;
-        padding-bottom: 0px;
-        padding-right: 0px;
-        padding-top: 0px;
-    }
-</style>
 
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))

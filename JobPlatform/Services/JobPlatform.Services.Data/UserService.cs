@@ -30,7 +30,7 @@
 
         public IEnumerable<T> GetAllRoles<T>()
         {
-            return this.roleRepository.All().OrderBy(x => x.Name).To<T>().ToList();
+            return this.roleRepository.All().OrderByDescending(x => x.Name.Length).To<T>().ToList();
         }
 
         public IEnumerable<T> GetAllUsers<T>()
@@ -49,9 +49,13 @@
                     var userAdd = new UserViewModel
                     {
                         Id = user.Id,
+                        CreatedOn = user.CreatedOn,
+                        DeletedOn = user.DeletedOn,
                         FamilyName = user.FamilyName,
                         FirstName = user.FirstName,
+                        IsDeleted = user.IsDeleted,
                         MiddleName = user.MiddleName,
+                        ModifiedOn = user.ModifiedOn,
                         ProfilePicture = user.ProfilePicture,
                         UserName = user.UserName,
                         RolesName = new List<RolesViewModel>(),
@@ -61,7 +65,7 @@
                     {
                         foreach (var userRole in user.Roles)
                         {
-                            if (role.Id == userRole.Id)
+                            if (role.Id == userRole.RoleId)
                             {
                                 var roleAdd = new RolesViewModel(role.Id, role.Name);
                                 userAdd.RolesName.Add(roleAdd);
