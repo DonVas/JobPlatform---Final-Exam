@@ -83,12 +83,5 @@
         "min/moment-with-locales.min.js"
       ]
     }
-    //{
-    //  "library": "jcrop3@3.0.2",
-    //  "destination": "wwwroot/lib/",
-    //  "files": [
-
-    //  ]
-    //}
   ]
 }

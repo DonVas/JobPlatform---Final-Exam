@@ -4,7 +4,8 @@
     using System.IO;
     using System.Threading.Tasks;
     using System.Web;
-
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
     using JobPlatform.Data.Common.Models;
     using JobPlatform.Data.Common.Repositories;
     using Microsoft.AspNetCore.Http;
@@ -12,45 +13,45 @@
     public class FileService : IFileService
 {
         private readonly IDeletableEntityRepository<FileTable> fileRepository;
+        private readonly Cloudinary cloudinary;
 
-        public FileService(IDeletableEntityRepository<FileTable> fileRepository)
+        public FileService(IDeletableEntityRepository<FileTable> fileRepository, Cloudinary cloudinary)
         {
             this.fileRepository = fileRepository;
+            this.cloudinary = cloudinary;
         }
 
-        //public void Upload(object sender)
-        //{
-        //    string base64 = Request.Form["imgCropped"];
-        //    byte[] bytes = Convert.FromBase64String(base64.Split(',')[1]);
-        //    using (System.IO.FileStream stream = new System.IO.FileStream(Server.MapPath("~/Images/Cropped.png"), System.IO.FileMode.Create))
-        //    {
-        //        stream.Write(bytes, 0, bytes.Length);
-        //        stream.Flush();
-        //    }
-        //}
-
-        public async Task UploadFileAsync(IFormFile file)
+        public string UploadFileAsync(string file)
         {
-            if (file != null)
+            var result = this.cloudinary.DeleteResourcesByTag(file);
+            return result.StatusCode.ToString();
+        }
+
+        public async Task<ImageUploadResult> UploadImageAsync(IFormFile file)
+        {
+            if (file == null)
             {
-                byte[] data = this.GetBytesFromFile(file);
-                await this.fileRepository.AddAsync(new FileTable() { Name = Guid.NewGuid().ToString(), UploadedFile = data });
+                return null;
             }
-        }
 
-        private byte[] GetBytesFromFile(IFormFile file)
-        {
-            using (Stream inputStream = file.OpenReadStream())
+            byte[] uploadImage;
+            ImageUploadResult result;
+            using (var memoryStream = new MemoryStream())
             {
-                MemoryStream memoryStream = inputStream as MemoryStream;
-                if (memoryStream == null)
+                await file.CopyToAsync(memoryStream);
+                uploadImage = memoryStream.ToArray();
+            }
+
+            using (var uploadImageStream = new MemoryStream(uploadImage))
+            {
+                var uploadParams = new ImageUploadParams()
                 {
-                    memoryStream = new MemoryStream();
-                    inputStream.CopyTo(memoryStream);
-                }
-
-                return memoryStream.ToArray();
+                    File = new FileDescription(file.FileName, uploadImageStream),
+                };
+                result = await this.cloudinary.UploadAsync(uploadParams);
             }
+
+            return result;
         }
     }
 }

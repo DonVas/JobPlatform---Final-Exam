@@ -2,7 +2,7 @@
 {
     using System;
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using JobPlatform.Data;
     using JobPlatform.Data.Common;
     using JobPlatform.Data.Common.Repositories;
@@ -70,6 +70,16 @@
             });
 
             services.AddRazorPages();
+
+            Account account = new Account(
+                                 this.configuration["Cloudinary:my_cloud_name"],
+                                 this.configuration["Cloudinary:my_api_key"],
+                                 this.configuration["Cloudinary:my_api_secret"]
+                                 );
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
 
             services.AddSingleton(this.configuration);
 
