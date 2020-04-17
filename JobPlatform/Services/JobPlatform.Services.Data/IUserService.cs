@@ -13,5 +13,7 @@
         IEnumerable<T> GetAllRoles<T>();
 
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
+
+        int GetAllUsersCount();
     }
 }

@@ -40,21 +40,9 @@
 
         public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
-            //int? take = null, int skip = 0
-            //var query = this.userRepository.All()
-            //    .OrderByDescending(x => x.UserName)
-            //    .Skip(skip);
+            var users = this.GetAllUsers<UserViewModel>().OrderBy(u => u.UserName);
 
-            //if (take.HasValue)
-            //{
-            //    query = query.Take(take.Value);
-            //}
-
-            //query.To<UserViewModel>().ToList();
-
-            var users = this.GetAllUsers<UserViewModel>();
-            var roles = this.roleRepository.All().ToList();
-            var results = new List<UserViewModel>();
+            var roles = this.roleRepository.All().OrderByDescending(r => r.Name).ToList();
 
             foreach (var user in users)
             {
@@ -62,40 +50,12 @@
                 user.RolesName = await this.userManager.GetRolesAsync(appUser);
             }
 
-            //foreach (var user in users)
-            //{
-            //    var usere = this.userManager.IsInRoleAsync(user);
-            //        var userAdd = new UserViewModel
-            //        {
-            //            Id = user.Id,
-            //            CreatedOn = user.CreatedOn,
-            //            DeletedOn = user.DeletedOn,
-            //            FamilyName = user.FamilyName,
-            //            FirstName = user.FirstName,
-            //            IsDeleted = user.IsDeleted,
-            //            MiddleName = user.MiddleName,
-            //            ModifiedOn = user.ModifiedOn,
-            //            ProfilePicture = user.ProfilePicture,
-            //            UserName = user.UserName,
-            //            RolesName = new List<RoleViewModel>(),
-            //        };
-
-            //        foreach (var role in roles)
-            //        {
-            //            foreach (var userRole in user.Roles)
-            //            {
-            //                if (role.Id == userRole.RoleId)
-            //                {
-            //                    var roleAdd = new RoleViewModel(role.Id, role.Name);
-            //                    userAdd.RolesName.Add(roleAdd);
-            //                }
-            //            }
-            //        }
-
-            //        results.Add(userAdd);
-            //}
-
             return users;
+        }
+
+        public int GetAllUsersCount()
+        {
+            return this.userRepository.All().Count();
         }
     }
 }

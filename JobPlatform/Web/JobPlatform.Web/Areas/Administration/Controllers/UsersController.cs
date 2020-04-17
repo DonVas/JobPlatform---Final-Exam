@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+
     using JobPlatform.Services.Data;
     using JobPlatform.Web.Controllers;
     using JobPlatform.Web.ViewModels.Administration.Dashboard;
@@ -26,7 +27,18 @@
             viewModel.Users = await this.userService.GetAllUsersAsync();
             viewModel.Roles = this.userService.GetAllRoles<RoleViewModel>();
 
+            if (viewModel.Users == null && viewModel.Roles == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Search()
+        {
+            return this.View();
         }
     }
 }

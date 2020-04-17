@@ -16,14 +16,14 @@
             this.userService = userService;
         }
 
-        public async Task<IActionResult> Dashboard()
+        public IActionResult Dashboard()
         {
-            var viewModel = new UsersViewModel();
+            return this.View();
+        }
 
-            viewModel.Users = await this.userService.GetAllUsersAsync();
-            viewModel.Roles = this.userService.GetAllRoles<RoleViewModel>();
-
-            return this.View(viewModel);
+        public IActionResult Settings()
+        {
+            return this.View();
         }
     }
 }

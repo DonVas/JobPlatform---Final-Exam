@@ -82,6 +82,18 @@
       "files": [
         "min/moment-with-locales.min.js"
       ]
+    },
+    {
+      "library": "datatables.net@1.10.20",
+      "destination": "wwwroot/",
+      "files": [ "js/jquery.dataTables.js" 
+      ]
+    },
+    {
+      "library": "datatables.net-dt@1.10.20",
+      "destination": "wwwroot/",
+      "files": [ "css/jquery.dataTables.css" ]
     }
+    
   ]
 }

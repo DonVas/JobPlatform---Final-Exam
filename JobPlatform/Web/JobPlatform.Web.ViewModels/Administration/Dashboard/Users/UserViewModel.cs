@@ -1,6 +1,7 @@
 ﻿namespace JobPlatform.Web.ViewModels.Administration.Dashboard
 {
     using System.Collections.Generic;
+
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
 
