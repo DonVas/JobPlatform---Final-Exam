@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using JobPlatform.Data.Common.Repositories;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
@@ -38,7 +38,7 @@
             return this.userRepository.All().To<T>().ToList();
         }
 
-        public IEnumerable<UserViewModel> GetAllUsers()
+        public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
             //int? take = null, int skip = 0
             //var query = this.userRepository.All()
@@ -58,37 +58,44 @@
 
             foreach (var user in users)
             {
-                    var userAdd = new UserViewModel
-                    {
-                        Id = user.Id,
-                        CreatedOn = user.CreatedOn,
-                        DeletedOn = user.DeletedOn,
-                        FamilyName = user.FamilyName,
-                        FirstName = user.FirstName,
-                        IsDeleted = user.IsDeleted,
-                        MiddleName = user.MiddleName,
-                        ModifiedOn = user.ModifiedOn,
-                        ProfilePicture = user.ProfilePicture,
-                        UserName = user.UserName,
-                        RolesName = new List<RolesViewModel>(),
-                    };
-
-                    foreach (var role in roles)
-                    {
-                        foreach (var userRole in user.Roles)
-                        {
-                            if (role.Id == userRole.RoleId)
-                            {
-                                var roleAdd = new RolesViewModel(role.Id, role.Name);
-                                userAdd.RolesName.Add(roleAdd);
-                            }
-                        }
-                    }
-
-                    results.Add(userAdd);
+                var appUser = this.userRepository.All().FirstOrDefault(u => u.Id == user.Id);
+                user.RolesName = await this.userManager.GetRolesAsync(appUser);
             }
 
-            return results;
+            //foreach (var user in users)
+            //{
+            //    var usere = this.userManager.IsInRoleAsync(user);
+            //        var userAdd = new UserViewModel
+            //        {
+            //            Id = user.Id,
+            //            CreatedOn = user.CreatedOn,
+            //            DeletedOn = user.DeletedOn,
+            //            FamilyName = user.FamilyName,
+            //            FirstName = user.FirstName,
+            //            IsDeleted = user.IsDeleted,
+            //            MiddleName = user.MiddleName,
+            //            ModifiedOn = user.ModifiedOn,
+            //            ProfilePicture = user.ProfilePicture,
+            //            UserName = user.UserName,
+            //            RolesName = new List<RoleViewModel>(),
+            //        };
+
+            //        foreach (var role in roles)
+            //        {
+            //            foreach (var userRole in user.Roles)
+            //            {
+            //                if (role.Id == userRole.RoleId)
+            //                {
+            //                    var roleAdd = new RoleViewModel(role.Id, role.Name);
+            //                    userAdd.RolesName.Add(roleAdd);
+            //                }
+            //            }
+            //        }
+
+            //        results.Add(userAdd);
+            //}
+
+            return users;
         }
     }
 }

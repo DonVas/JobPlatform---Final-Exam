@@ -5,6 +5,7 @@
     using JobPlatform.Web.ViewModels.Administration.Dashboard;
 
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class DashboardController : AdministrationController
     {
@@ -15,12 +16,12 @@
             this.userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Dashboard()
         {
             var viewModel = new UsersViewModel();
 
-            viewModel.Users = this.userService.GetAllUsers();
-            viewModel.Roles = this.userService.GetAllRoles<RolesViewModel>();
+            viewModel.Users = await this.userService.GetAllUsersAsync();
+            viewModel.Roles = this.userService.GetAllRoles<RoleViewModel>();
 
             return this.View(viewModel);
         }

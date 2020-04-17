@@ -15,6 +15,6 @@
 
         public IEnumerable<UserViewModel> Users { get; set; }
 
-        public IEnumerable<RolesViewModel> Roles { get; set; }
+        public IEnumerable<RoleViewModel> Roles { get; set; }
     }
 }

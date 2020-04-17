@@ -24,7 +24,7 @@
         {
         }
 
-        public DbSet<FileTable> FileTables { get; set; }
+        public DbSet<File> File { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

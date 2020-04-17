@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\20200404170437_AddingUserExtentions.Designer.cs" />
     <Compile Remove="Migrations\20200405141435_ChangingInputMOdels.cs" />
     <Compile Remove="Migrations\20200405141435_ChangingInputMOdels.Designer.cs" />
+    <Compile Remove="Migrations\20200405141954_ChangingInputMOdels.cs" />
+    <Compile Remove="Migrations\20200405141954_ChangingInputMOdels.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

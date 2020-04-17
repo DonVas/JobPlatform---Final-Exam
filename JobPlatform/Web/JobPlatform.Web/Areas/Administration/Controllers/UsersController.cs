@@ -19,12 +19,12 @@
             this.userService = userService;
         }
 
-        public IActionResult Users()
+        public async Task<IActionResult> UsersAsync()
         {
             var viewModel = new UsersViewModel();
 
-            viewModel.Users = this.userService.GetAllUsers();
-            viewModel.Roles = this.userService.GetAllRoles<RolesViewModel>();
+            viewModel.Users = await this.userService.GetAllUsersAsync();
+            viewModel.Roles = this.userService.GetAllRoles<RoleViewModel>();
 
             return this.View(viewModel);
         }

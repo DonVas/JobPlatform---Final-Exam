@@ -12,6 +12,6 @@
 
         IEnumerable<T> GetAllRoles<T>();
 
-        IEnumerable<UserViewModel> GetAllUsers();
+        Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
     }
 }

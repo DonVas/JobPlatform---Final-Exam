@@ -12,7 +12,7 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.FileTables.Any())
+            if (dbContext.File.Any())
             {
                 return;
             }

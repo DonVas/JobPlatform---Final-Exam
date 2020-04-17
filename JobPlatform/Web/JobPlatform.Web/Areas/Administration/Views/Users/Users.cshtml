@@ -28,7 +28,8 @@
                             <td>@user.FullName</td>
                             @foreach (var roleId in Model.Roles)
                             {
-                                @if (user.RolesName.FirstOrDefault(x => x.Name == roleId.Name) != null)
+                                @if (user.RolesName.FirstOrDefault(x => x
+                                 == roleId.Name) != null)
                                 {
                                     <td>
                                         <a href="#" style="color: green" onclick="changeRole('@user.Id', '@roleId.Id', false),reresh()">
