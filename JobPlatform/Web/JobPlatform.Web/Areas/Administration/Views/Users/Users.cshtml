@@ -1,4 +1,4 @@
-﻿@model JobPlatform.Web.ViewModels.Administration.Dashboard.UsersViewModel
+﻿@model JobPlatform.Web.ViewModels.Administration.Dashboard.Users.UsersViewModel
 @{
     this.ViewData["Title"] = "User Panell";
 }
@@ -26,7 +26,9 @@
                      @foreach (var user in this.Model.Users)
                      {
                          <tr id="@user.Id">
-                             <td><a href="@user.Id" target="_blank">@user.UserName</a></td>
+                             <td>
+                                 <a asp-controller="Users" asp-action="UserById" asp-route-id="@user.Id">@user.UserName</a>
+                             </td>
                              <td>@user.FullName</td>
                              @foreach (var roleId in Model.Roles)
                              {
