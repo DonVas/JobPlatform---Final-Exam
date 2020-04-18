@@ -11,6 +11,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-md-auto mb-3">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" disabled="" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-auto mb-3">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input asp-for="FirstName" class="form-control" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -24,33 +29,68 @@
                     <label asp-for="FamilyName" class="control-label"></label>
                     <input asp-for="FamilyName" class="form-control" />
                     <span asp-validation-for="FamilyName" class="text-danger"></span>
-                </div>             
+                </div>
             </div>
             <div class="row">
+               <div class="col-md-auto mb-3">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" disabled="" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
                 <div class="col-md-auto mb-3">
                     <label asp-for="DeletedOn" class="control-label"></label>
-                    <input asp-for="DeletedOn" class="form-control" />
+                    <input asp-for="DeletedOn" disabled="" class="form-control" />
                     <span asp-validation-for="DeletedOn" class="text-danger"></span>
                 </div>
                 <div class="col-md-auto mb-3">
                     <label asp-for="CreatedOn" class="control-label"></label>
-                    <input asp-for="CreatedOn" class="form-control" />
+                    <input asp-for="CreatedOn" asp-format="{0:M/dd/yyyy HH:mm}" disabled="" class="form-control" />
                     <span asp-validation-for="CreatedOn" class="text-danger"></span>
                 </div>
                 <div class="col-md-auto mb-3">
                     <label asp-for="ModifiedOn" class="control-label"></label>
-                    <input asp-for="ModifiedOn" class="form-control" />
+                    <input asp-for="ModifiedOn" asp-format="{0:M/dd/yyyy HH:mm}" disabled="" class="form-control" />
                     <span asp-validation-for="ModifiedOn" class="text-danger"></span>
                 </div>
+                <div class="col-md-auto mb-3">
+                    <label asp-for="LockoutEnd" class="control-label"></label>
+                    <input asp-for="LockoutEnd" asp-format="{0:M/dd/yyyy HH:mm}" disabled="" class="form-control" />
+                    <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+                </div>
+                <div class="col-md-auto mb-3">
+                    <label asp-for="AccessFailedCount" class="control-label"></label>
+                    <input asp-for="AccessFailedCount" disabled="" class="form-control" />
+                    <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-md-auto mb-3 form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="EmailConfirmed" /> @Html.DisplayNameFor(model => model.EmailConfirmed)
+                    </label>
+                </div>
+                <div class="col-md-auto mb-3 form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="LockoutEnabled" /> @Html.DisplayNameFor(model => model.LockoutEnabled)
+                    </label>
+                </div>
+                <div class="col-md-auto mb-3 form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="TwoFactorEnabled" /> @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+                    </label>
+                </div>
+                <div class="col-md-auto mb-3 form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="PhoneNumberConfirmed" /> @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+                    </label>
+                </div>
+                <div class="col-md-6 mb-3 form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                    </label>
+                </div>
 
-            <div class="col-md-6 mb-3 form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>           
-            
-
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

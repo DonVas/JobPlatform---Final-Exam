@@ -12,10 +12,10 @@
 
     public class FileService : IFileService
 {
-        private readonly IDeletableEntityRepository<FileTable> fileRepository;
+        private readonly IDeletableEntityRepository<JobPlatform.Data.Common.Models.File> fileRepository;
         private readonly Cloudinary cloudinary;
 
-        public FileService(IDeletableEntityRepository<FileTable> fileRepository, Cloudinary cloudinary)
+        public FileService(IDeletableEntityRepository<JobPlatform.Data.Common.Models.File> fileRepository, Cloudinary cloudinary)
         {
             this.fileRepository = fileRepository;
             this.cloudinary = cloudinary;

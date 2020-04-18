@@ -1,10 +1,11 @@
-﻿namespace JobPlatform.Web.ViewModels.Administration.Dashboard.Users
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace JobPlatform.Web.ViewModels.Administration.Dashboard.Users
 {
     using System;
-
+    using System.Globalization;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
-
 
     public class SelectedUserViewModel : IMapFrom<ApplicationUser>
     {
@@ -22,13 +23,13 @@
 
         public string FamilyName { get; set; }
 
-        public string CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
-        public string ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
 
-        public string DeletedOn { get; set; }
+        public DateTime? DeletedOn { get; set; }
 
-        public string LockoutEnd { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
 
         public bool IsDeleted { get; set; }
 
