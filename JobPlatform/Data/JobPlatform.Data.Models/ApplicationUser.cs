@@ -31,9 +31,6 @@ namespace JobPlatform.Data.Models
         [MaxLength(20)]
         public string FamilyName { get; set; }
 
-        [Url]
-        public string ProfilePicture { get; set; }
-
         // Audit info
         public DateTime CreatedOn { get; set; }
 
@@ -43,6 +40,8 @@ namespace JobPlatform.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public ICollection<File> UserFiles { get; set; } = new HashSet<File>();
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

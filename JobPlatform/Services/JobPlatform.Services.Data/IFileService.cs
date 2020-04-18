@@ -1,15 +1,17 @@
 ﻿namespace JobPlatform.Services.Data
 {
-    using System;
     using System.Threading.Tasks;
 
     using CloudinaryDotNet.Actions;
+    using JobPlatform.Data.Models;
     using Microsoft.AspNetCore.Http;
 
     public interface IFileService
     {
-        string UploadFileAsync(string file);
+        Task<DelResResult> DeleteFileAsync(string publicId);
 
-        Task<ImageUploadResult> UploadImageAsync(IFormFile file);
+        Task<bool> UploadProfileImageAsync(IFormFile file, ApplicationUser user);
+
+        Task UploadImageFileAsync(IFormFile file, ApplicationUser user, string fileName);
     }
 }

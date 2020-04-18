@@ -7,7 +7,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    var url = this.UserManager.GetUserAsync(this.User).Result;
+    var user = this.UserManager.GetUserAsync(this.User).Result;
+    var url = this.UserManager
+        .GetClaimsAsync(user).Result
+        .FirstOrDefault(x => x.Type == "ProfilePicture")
+        ?.Value.ToString();
 }
 
 <h4>@ViewData["Title"]</h4>
@@ -16,18 +20,25 @@
     <div class="col-md-6">
         <div asp-validation-summary="All" class="text-danger"></div>
         <form id="profile-form" method="post" enctype="multipart/form-data">
-            @if (url.ProfilePicture != null)
+            @if (@url != null)
             {
-                <img src="@url.ProfilePicture" class="d-block w-50 rounded" alt="Forest" style="margin-bottom: 17px">
+                <div class="preview text-center">
+                    <img class="preview-img" src="@url" alt="Preview Image" width="200" height="200" />
+                    <div class="browse-button">
+                        <i class="fa fa-pencil-alt"></i>
+                        <input class="browse-input" required type="file" asp-for="PictureFile" />
+                    </div>
+                </div>
             }
             else
             {
-                <span style="font-size: 100px; color: gray;">
-                    <i class="fas fa-portrait"></i>
-                </span>
-                    <div>
-                        <input type="file" asp-for="PictureFile" />
+                <div class="preview text-center">
+                    <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200" />
+                    <div class="browse-button">
+                        <i class="fa fa-pencil-alt"></i>
+                        <input class="browse-input" required type="file" asp-for="PictureFile" />
                     </div>
+                </div>
             }
 
             <div class="form-group">
@@ -55,14 +66,63 @@
         </form>
     </div>
 </div>
-<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-    tinymce.init({
-        selector: "textarea",
-        plugins: ["image paste table link code media"]
-    });
-</script>
 
 @section Scripts {
+    <style>
+        .preview {
+            padding: 10px;
+            position: relative;
+        }
+
+            .preview i {
+                color: white;
+                font-size: 35px;
+                transform: translate(50px,130px);
+                margin-left: -8px;
+            }
+
+        .preview-img {
+            border-radius: 100%;
+            box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.7);
+        }
+
+        .browse-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 100%;
+            position: absolute; /* Tweak the position property if the element seems to be unfit */
+            top: 10px;
+            left: 98px;
+            background: linear-gradient(180deg, transparent, black);
+            opacity: 0;
+            transition: 0.3s ease;
+        }
+
+            .browse-button:hover {
+                opacity: 1;
+            }
+
+        .browse-input {
+            width: 200px;
+            height: 200px;
+            border-radius: 100%;
+            transform: translate(-1px,-26px);
+            opacity: 0;
+        }
+
+        .form-group {
+            width: 250px;
+            margin: 10px auto;
+        }
+
+            .form-group input {
+                transition: 0.3s linear;
+            }
+
+                .form-group input:focus {
+                    border: 1px solid crimson;
+                    box-shadow: 0 0 0 0;
+                }
+    </style>
     <partial name="_ValidationScriptsPartial" />
 }

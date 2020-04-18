@@ -38,7 +38,9 @@
 
         public IActionResult UserById(string id)
         {
-            var viewModel = this.userService.GetAllUsers<SelectedUserViewModel>().FirstOrDefault(x => x.Id == id);
+            var viewModel = this.userService
+                .GetAllUsers<SelectedUserViewModel>()
+                .FirstOrDefault(x => x.Id == id);
             if (viewModel == null)
             {
                 return this.NotFound();

@@ -1,13 +1,9 @@
 ﻿namespace JobPlatform.Web.Areas.Identity.Pages.Account.Manage
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using CloudinaryDotNet;
-    using CloudinaryDotNet.Actions;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data;
     using Microsoft.AspNetCore.Http;
@@ -60,9 +56,6 @@
             [Display(Name = "Family Name")]
             public string FamilyName { get; set; }
 
-            [Url]
-            [Display(Name = "Profile Picture")]
-            public string ProfilePicture { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -102,11 +95,7 @@
                 }
             }
 
-            var resultUpload = await this.fileService.UploadImageAsync(this.PictureFile);
-            if (resultUpload != null)
-            {
-                user.ProfilePicture = resultUpload.SecureUri.ToString();
-            }
+            await this.fileService.UploadProfileImageAsync(this.PictureFile, user);
 
             user.FirstName = this.Input.FirstName;
             user.MiddleName = this.Input.MiddleName;

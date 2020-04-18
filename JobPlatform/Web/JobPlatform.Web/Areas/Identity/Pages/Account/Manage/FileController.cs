@@ -19,14 +19,15 @@
             this.fileService = fileService;
         }
 
-        public async Task<ImageUploadResult> UploadImageAsync(IFormFile file)
+        public async Task<ImageUploadResult> UploadImageAsync(IFormFile file, ApplicationUser user)
         {
-            var uploadResult = await this.fileService.UploadImageAsync(file);
+            //this.User.Claims.FirstOrDefault(x => x.Properties.ContainsKey("ProfilePicture"));
+            //var uploadResult = await this.fileService.UploadProfileImageAsync(file);
 
-            if (uploadResult != null)
-            {
-                return uploadResult;
-            }
+            //if (uploadResult != null)
+            //{
+            //    return uploadResult;
+            //}
 
             return null;
         }
