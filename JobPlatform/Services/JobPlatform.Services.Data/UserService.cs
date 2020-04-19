@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using JobPlatform.Data.Common.Repositories;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
@@ -14,18 +15,16 @@
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
         private readonly IDeletableEntityRepository<ApplicationRole> roleRepository;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<ApplicationRole> roleManager;
 
         public UserService(
             IDeletableEntityRepository<ApplicationUser> deletableUserRepository,
             IDeletableEntityRepository<ApplicationRole> deletableRoleRepository,
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager)
+            UserManager<ApplicationUser> userManager)
         {
             this.userRepository = deletableUserRepository;
             this.roleRepository = deletableRoleRepository;
             this.userManager = userManager;
-            this.roleManager = roleManager;
+
         }
 
         public IEnumerable<T> GetAllRoles<T>()

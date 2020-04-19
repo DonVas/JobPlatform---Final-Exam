@@ -14,22 +14,30 @@ namespace JobPlatform.Data.Models
         public ApplicationUser()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Roles = new HashSet<IdentityUserRole<string>>();
-            this.Claims = new HashSet<IdentityUserClaim<string>>();
-            this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Claims = new HashSet<ApplicationUserClaim>();
+            this.Logins = new HashSet<ApplicationUserLogin>();
+            this.Tokens = new HashSet<ApplicationUserToken>();
+            this.UserRoles = new HashSet<ApplicationUserRole>();
         }
 
         [MinLength(2)]
         [MaxLength(20)]
-        public string FirstName { get; set; }
+        public virtual string FirstName { get; set; }
 
         [MinLength(2)]
         [MaxLength(20)]
-        public string MiddleName { get; set; }
+        public virtual string MiddleName { get; set; }
 
         [MinLength(2)]
         [MaxLength(20)]
-        public string FamilyName { get; set; }
+        public virtual string FamilyName { get; set; }
+
+        [Url]
+        public string ProfilePicture { get; set; }
+
+        public DateTime Birthdate { get; set; }
+
+        public Gender Gender { get; set; } = Gender.Unknown;
 
         // Audit info
         public DateTime CreatedOn { get; set; }
@@ -41,12 +49,14 @@ namespace JobPlatform.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public ICollection<File> UserFiles { get; set; } = new HashSet<File>();
+        public virtual ICollection<File> UserFiles { get; set; } = new HashSet<File>();
 
-        public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
+        public virtual ICollection<ApplicationUserClaim> Claims { get; set; }
 
-        public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
+        public virtual ICollection<ApplicationUserLogin> Logins { get; set; }
 
-        public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+        public virtual ICollection<ApplicationUserToken> Tokens { get; set; }
+
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
 }

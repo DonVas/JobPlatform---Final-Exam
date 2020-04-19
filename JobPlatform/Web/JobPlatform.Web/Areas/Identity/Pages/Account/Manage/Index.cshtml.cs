@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using JobPlatform.Data.Models;
@@ -29,7 +30,10 @@
 
         public string Username { get; set; }
 
+        public string ProfilePicture { get; set; }
+
         [BindProperty]
+        [AllowNull]
         public IFormFile PictureFile { get; set; }
 
         [TempData]
@@ -66,8 +70,40 @@
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
+            this.ProfilePicture = user.ProfilePicture;
+
             await this.LoadAsync(user);
             return this.Page();
+        }
+
+        public async Task<IActionResult> OnPostPictureUploadAsync()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            }
+
+            if (this.PictureFile != null)
+            {
+                await this.fileService.UploadProfileImageAsync(this.PictureFile, user);
+
+                this.ProfilePicture = user.ProfilePicture;
+            }
+
+            var result = await this.userManager.UpdateAsync(user);
+
+            // However, it always succeeds inspite of not updating the database
+            if (!result.Succeeded)
+            {
+                var userId = await this.userManager.GetUserIdAsync(user);
+                throw new InvalidOperationException($"Unexpected error occurred for user with ID '{userId}'.");
+            }
+
+            await this.signInManager.RefreshSignInAsync(user);
+            this.StatusMessage = "Your picture has been updated";
+
+            return this.RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -94,8 +130,6 @@
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
-
-            await this.fileService.UploadProfileImageAsync(this.PictureFile, user);
 
             user.FirstName = this.Input.FirstName;
             user.MiddleName = this.Input.MiddleName;

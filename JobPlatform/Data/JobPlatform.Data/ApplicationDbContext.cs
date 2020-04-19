@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Data
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace JobPlatform.Data
 {
     using System;
     using System.Linq;
@@ -12,7 +14,10 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : IdentityDbContext<
+        ApplicationUser, ApplicationRole, string,
+        ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
+        ApplicationRoleClaim, ApplicationUserToken>
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
             typeof(ApplicationDbContext).GetMethod(
@@ -24,7 +29,7 @@
         {
         }
 
-        public DbSet<File> File { get; set; }
+        public virtual DbSet<File> File { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 
@@ -51,6 +56,21 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationRole>(b =>
+            {
+                // Each Role can have many entries in the UserRole join table
+                b.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.Role)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+
+                // Each Role can have many associated RoleClaims
+                b.HasMany(e => e.RoleClaims)
+                    .WithOne(e => e.Role)
+                    .HasForeignKey(rc => rc.RoleId)
+                    .IsRequired();
+            });
 
             this.ConfigureUserIdentityRelations(builder);
 

@@ -1,4 +1,7 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
+
+using System.Collections.Generic;
+
 namespace JobPlatform.Data.Models
 {
     using System;
@@ -27,5 +30,9 @@ namespace JobPlatform.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; } = new HashSet<ApplicationRoleClaim>();
+
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = new HashSet<ApplicationUserRole>();
     }
 }

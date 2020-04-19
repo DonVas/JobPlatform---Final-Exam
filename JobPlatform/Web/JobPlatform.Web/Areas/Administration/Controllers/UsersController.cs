@@ -23,10 +23,11 @@
 
         public async Task<IActionResult> UsersAsync()
         {
-            var viewModel = new UsersViewModel();
-
-            viewModel.Users = await this.userService.GetAllUsersAsync();
-            viewModel.Roles = this.userService.GetAllRoles<RoleViewModel>();
+            var viewModel = new UsersViewModel
+            {
+                Users = await this.userService.GetAllUsersAsync(),
+                Roles = this.userService.GetAllRoles<RoleViewModel>()
+            };
 
             if (viewModel.Users == null && viewModel.Roles == null)
             {

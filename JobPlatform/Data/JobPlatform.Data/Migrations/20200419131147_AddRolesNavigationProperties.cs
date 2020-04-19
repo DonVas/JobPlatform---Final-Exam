@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JobPlatform.Data.Migrations
 {
-    public partial class FileEntityAdded : Migration
+    public partial class AddRolesNavigationProperties : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,11 +23,6 @@ namespace JobPlatform.Data.Migrations
                 name: "MiddleName",
                 table: "AspNetUsers",
                 maxLength: 20,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "ProfilePicture",
-                table: "AspNetUsers",
                 nullable: true);
 
             migrationBuilder.CreateTable(
@@ -82,10 +77,6 @@ namespace JobPlatform.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "MiddleName",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "ProfilePicture",
                 table: "AspNetUsers");
         }
     }

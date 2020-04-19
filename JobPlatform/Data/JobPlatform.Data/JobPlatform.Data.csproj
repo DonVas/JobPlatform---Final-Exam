@@ -17,6 +17,16 @@
     <Compile Remove="Migrations\20200405141435_ChangingInputMOdels.Designer.cs" />
     <Compile Remove="Migrations\20200405141954_ChangingInputMOdels.cs" />
     <Compile Remove="Migrations\20200405141954_ChangingInputMOdels.Designer.cs" />
+    <Compile Remove="Migrations\20200417104314_FileEntityAdded.cs" />
+    <Compile Remove="Migrations\20200417104314_FileEntityAdded.Designer.cs" />
+    <Compile Remove="Migrations\20200419101302_AddRolesNavigationProperties.cs" />
+    <Compile Remove="Migrations\20200419101302_AddRolesNavigationProperties.Designer.cs" />
+    <Compile Remove="Migrations\20200419111412_AddRolesNavigationProperties.cs" />
+    <Compile Remove="Migrations\20200419111412_AddRolesNavigationProperties.Designer.cs" />
+    <Compile Remove="Migrations\20200419115239_AddRolesNavigationProperties.cs" />
+    <Compile Remove="Migrations\20200419115239_AddRolesNavigationProperties.Designer.cs" />
+    <Compile Remove="Migrations\20200419122407_AddRolesNavigationProperties.cs" />
+    <Compile Remove="Migrations\20200419122407_AddRolesNavigationProperties.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,17 +41,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

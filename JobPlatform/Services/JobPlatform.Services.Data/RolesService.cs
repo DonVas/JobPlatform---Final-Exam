@@ -9,19 +9,14 @@
 
     public class RolesService : IRolesService
     {
-        private readonly IDeletableEntityRepository<ApplicationUser> deletableUserRepository;
-        private readonly IDeletableEntityRepository<ApplicationRole> deletableRoleRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<ApplicationRole> roleManager;
 
         public RolesService(
-            IDeletableEntityRepository<ApplicationUser> deletableUserRepository,
-            IDeletableEntityRepository<ApplicationRole> deletableRoleRepository,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager)
         {
-            this.deletableUserRepository = deletableUserRepository;
-            this.deletableRoleRepository = deletableRoleRepository;
+
             this.userManager = userManager;
             this.roleManager = roleManager;
         }

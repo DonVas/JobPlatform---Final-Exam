@@ -7,11 +7,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    var user = this.UserManager.GetUserAsync(this.User).Result;
-    var url = this.UserManager
-        .GetClaimsAsync(user).Result
-        .FirstOrDefault(x => x.Type == "ProfilePicture")
-        ?.Value.ToString();
+
 }
 
 <h4>@ViewData["Title"]</h4>
@@ -19,67 +15,178 @@
 <div class="row">
     <div class="col-md-6">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <form id="profile-form" method="post" enctype="multipart/form-data">
-            @if (@url != null)
+        <form id="formPicture" asp-page-handler="pictureUpload" method="post" enctype="multipart/form-data">
+        <div class="preview text-center">
+            @if (@Model.ProfilePicture != null)
             {
-                <div class="preview text-center">
-                    <img class="preview-img" src="@url" alt="Preview Image" width="200" height="200" />
-                    <div class="browse-button">
-                        <i class="fa fa-pencil-alt"></i>
-                        <input class="browse-input" required type="file" asp-for="PictureFile" />
-                    </div>
-                </div>
+                <img class="preview-img" src="@Model.ProfilePicture" alt="Preview Image" width="200" height="200" />
             }
             else
             {
-                <div class="preview text-center">
-                    <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200" />
-                    <div class="browse-button">
-                        <i class="fa fa-pencil-alt"></i>
-                        <input class="browse-input" required type="file" asp-for="PictureFile" />
+                <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200" />
+            }
+            <div class="browse-button">
+                <i class="fa fa-pencil-alt"></i>
+                <input id="filePicture" class="browse-input" required type="file" asp-for="PictureFile" />
+            </div>
+        </div>
+        </form>
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            <div id="user" class="container">
+                <div class="row mt-2">
+                    <div class="col">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profileId" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="false">Address</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="links-tab" data-toggle="tab" href="#links" role="tab" aria-controls="links" aria-selected="false">Links</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="profileId" role="tabpanel" aria-labelledby="profile-tab">
+                                <table class="table table-hover table-sm table-properties">
+                                    <tr v-show="User Name">
+                                        <th>UserName</th>
+                                        <td><input asp-for="Username" class="form-control" disabled /></td>
+                                    </tr>
+                                    <tr v-show="First Name">
+                                        <th>First name</th>
+                                        <td>
+                                            <input asp-for="Input.FirstName" class="form-control" />
+                                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                        </td>
+                                    </tr>
+                                    <tr v-show="Middle Name">
+                                        <th>Middle Name</th>
+                                        <td>
+                                            <input asp-for="Input.MiddleName" class="form-control" />
+                                            <span asp-validation-for="Input.MiddleName" class="text-danger"></span>
+                                        </td>
+                                    </tr>
+                                    <tr v-show="Family Name">
+                                        <th>Family Name</th>
+                                        <td>
+                                            <input asp-for="Input.FamilyName" class="form-control" />
+                                            <span asp-validation-for="Input.FamilyName" class="text-danger"></span>
+                                        </td>
+                                    </tr>
+                                    <tr v-show="Birthdate">
+                                        <th>Birthdate</th>
+                                        <td>
+                                            <input asp-for="Username" class="form-control" />
+                                            @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
+                                        </td>
+                                    </tr>
+                                    <tr v-show="Phone Number">
+                                        <th>Phone Number</th>
+                                        <td>
+                                            <input asp-for="Input.PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <table class="table table-hover table-sm table-properties">
+                                    <tr v-show="Email">
+                                        <th>Email</th>
+                                        <td>
+                                            <input asp-for="Username" class="form-control" />
+                                            @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
+                                        </td>
+                                    </tr>
+                                    <tr v-show="Phone_number">
+                                        <th>Phone number</th>
+                                        <td>
+                                            <input asp-for="Username" class="form-control" />
+                                            @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                <table class="table table-hover table-sm table-properties">
+                                    <tr v-show="user.address.country">
+                                        <th>country</th>
+                                        <td>{{user.address.country}}</td>
+                                    </tr>
+                                    <tr v-show="user.address.postal_code">
+                                        <th>postal code</th>
+                                        <td>{{user.address.postal_code}}</td>
+                                    </tr>
+                                    <tr v-show="user.address.locality">
+                                        <th>locality</th>
+                                        <td>{{user.address.locality}}</td>
+                                    </tr>
+                                    <tr v-show="user.address.region">
+                                        <th>region</th>
+                                        <td>{{user.address.region}}</td>
+                                    </tr>
+                                    <tr v-show="user.address.street_address">
+                                        <th>street address</th>
+                                        <td>{{user.address.street_address}}</td>
+                                    </tr>
+                                    <tr v-show="user.address.formatted">
+                                        <th>formatted</th>
+                                        <td>{{user.address.formatted}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="links-tab">
+                                <table class="table table-hover table-sm table-properties">
+                                    <tr v-show="Id">
+                                        <th>id</th>
+                                        <td><a v-bind:href="user['id']">{{user["id"]}}</a></td>
+                                    </tr>
+                                    <tr v-show="user.me">
+                                        <th>me</th>
+                                        <td><a v-bind:href="user.me">{{user.me}}</a></td>
+                                    </tr>
+                                    <tr v-show="user.website">
+                                        <th>website</th>
+                                        <td><a v-bind:href="user.website">{{user.website}}</a></td>
+                                    </tr>
+                                    <tr v-show="user.profile">
+                                        <th>profile</th>
+                                        <td><a v-bind:href="user.profile">{{user.profile}}</a></td>
+                                    </tr>
+                                    <tr v-show="user.webmail">
+                                        <th>webmail</th>
+                                        <td><a v-bind:href="user.webmail">{{user.webmail}}</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            }
-
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.MiddleName"></label>
-                <input asp-for="Input.MiddleName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.FamilyName"></label>
-                <input asp-for="Input.FamilyName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 </div>
-
 @section Scripts {
     <style>
+
         .preview {
             padding: 10px;
             position: relative;
         }
 
-            .preview i {
-                color: white;
-                font-size: 35px;
-                transform: translate(50px,130px);
-                margin-left: -8px;
-            }
+        .preview i {
+            color: white;
+            font-size: 35px;
+            transform: translate(50px,130px);
+            margin-left: -8px;
+        }
 
         .preview-img {
             border-radius: 100%;
@@ -98,9 +205,9 @@
             transition: 0.3s ease;
         }
 
-            .browse-button:hover {
-                opacity: 1;
-            }
+        .browse-button:hover {
+            opacity: 1;
+        }
 
         .browse-input {
             width: 200px;
@@ -115,14 +222,19 @@
             margin: 10px auto;
         }
 
-            .form-group input {
-                transition: 0.3s linear;
-            }
+        .form-group input {
+            transition: 0.3s linear;
+        }
 
-                .form-group input:focus {
-                    border: 1px solid crimson;
-                    box-shadow: 0 0 0 0;
-                }
+        .form-group input:focus {
+            border: 1px solid crimson;
+            box-shadow: 0 0 0 0;
+        }
     </style>
+    <script>
+        document.getElementById("filePicture").onchange = function() {
+            document.getElementById("formPicture").submit();
+        }
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }

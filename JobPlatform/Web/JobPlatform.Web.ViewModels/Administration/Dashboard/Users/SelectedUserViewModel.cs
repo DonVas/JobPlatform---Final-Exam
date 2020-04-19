@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace JobPlatform.Web.ViewModels.Administration.Dashboard.Users
+﻿namespace JobPlatform.Web.ViewModels.Administration.Dashboard.Users
 {
     using System;
-    using System.Globalization;
+
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
 
@@ -22,6 +20,12 @@ namespace JobPlatform.Web.ViewModels.Administration.Dashboard.Users
         public string MiddleName { get; set; }
 
         public string FamilyName { get; set; }
+
+        public string ProfilePicture { get; set; }
+
+        public string Gender { get; set; }
+
+        public DateTime? Birthdate { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

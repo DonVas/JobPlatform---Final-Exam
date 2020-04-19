@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace JobPlatform.Web
 {
     using System;
     using System.Reflection;
@@ -35,7 +37,10 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+                options => options
+                    .UseSqlServer(this.configuration.GetConnectionString("DefaultConnection"))
+                    .UseLazyLoadingProxies());
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(2);
@@ -49,8 +54,11 @@
                 options.EnableForHttps = true;
             });
 
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                    IdentityOptionsProvider.GetIdentityOptions)
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders();
 
             services.Configure<CookiePolicyOptions>(
                 options =>

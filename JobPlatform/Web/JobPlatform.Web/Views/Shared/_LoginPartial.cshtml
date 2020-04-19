@@ -4,12 +4,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    var eee = this.User.FindFirst("ProfilePicture");
-    var user = this.UserManager.GetUserAsync(this.User)?.Result;
-    var url = this.UserManager?
-        .GetClaimsAsync(user)?.Result?
-        .FirstOrDefault(x => x.Type == "ProfilePicture")
-        ?.Value.ToString();
+    var user = this.UserManager.GetUserAsync(this.User).Result;
 }
 
 <ul class="navbar-nav">
@@ -17,9 +12,9 @@
     {
         <li class="nav-item align-baseline">
             <a class="nav-link text-dark align-baseline" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                @if (@url != null)
+                @if (@user?.ProfilePicture != null)
                 {
-                    <img src="@url" class="avatar" />
+                    <img src="@user.ProfilePicture" class="avatar" />
                 }
                 else
                 {

@@ -14,59 +14,61 @@ namespace JobPlatform.Services.Data
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using JobPlatform.Data.Common.Models;
-    using JobPlatform.Data.Common.Repositories;
     using Microsoft.AspNetCore.Http;
 
     public class FileService : IFileService
 {
-        private readonly IDeletableEntityRepository<File> fileRepository;
-        private readonly Cloudinary cloudinary;
-        private readonly UserManager<ApplicationUser> userManager;
+    private readonly Cloudinary cloudinary;
 
-        public FileService(
-            IDeletableEntityRepository<File> fileRepository,
-            Cloudinary cloudinary,
-            UserManager<ApplicationUser> userManager)
+    public FileService(Cloudinary cloudinary)
         {
-            this.fileRepository = fileRepository;
             this.cloudinary = cloudinary;
-            this.userManager = userManager;
         }
 
-        public async Task<DelResResult> DeleteFileAsync(string publicId)
+    public async Task<DelResResult> DeleteFileAsync(string publicId)
         {
-            var publicIdRegex = @"[\w]{20}";
-            var resusrsId = Regex.Match(publicId, publicIdRegex).ToString();
+            var isPresent = this.IsPresentAsync(publicId).Result;
 
-            var delResParams = new DelResParams() { PublicIds = new List<string>() { $"{resusrsId}" } };
-            var result = await this.cloudinary.DeleteResourcesAsync(delResParams);
+            DelResResult result = new DelResResult();
+
+            if (isPresent)
+            {
+                var delResParams = new DelResParams() { PublicIds = new List<string>() { $"{publicId}" } };
+                result = await this.cloudinary.DeleteResourcesAsync(delResParams);
+            }
+
             return result;
         }
 
-        public async Task<bool> UploadProfileImageAsync(IFormFile file, ApplicationUser user)
+    public async Task<bool> UploadProfileImageAsync(IFormFile file, ApplicationUser user)
         {
             if (file == null)
             {
                 return false;
             }
 
-            var userImageFile = this.userManager.GetClaimsAsync(user)
-                .Result
-                .FirstOrDefault(x => x.Type == "ProfilePicture");
-
-            var url = await this.Upload(file);
+            var userImageFile = user.UserFiles.FirstOrDefault(x => x.Name == "ProfilePicture");
 
             if (userImageFile == null)
             {
-                var newClime = new Claim("ProfilePicture", url.SecureUri.ToString());
-                await this.userManager.AddClaimAsync(user, newClime);
+                var url = await this.Upload(file);
+                var userFile = new File() { Name = "ProfilePicture", PublicId = url.PublicId, FileLink = url.SecureUri.ToString()};
+                user.UserFiles.Add(userFile);
+                user.ProfilePicture = url.SecureUri.ToString();
             }
             else
             {
+                var url = await this.Upload(file);
+
                 if (url.SecureUri != null)
                 {
-                    await this.DeleteFileAsync(userImageFile.Value.ToString());
-                    userImageFile.Properties["ProfilePicture"] = url.SecureUri.ToString();
+                    var delResult = await this.DeleteFileAsync(userImageFile.PublicId);
+                    if (delResult.Error == null)
+                    {
+                        userImageFile.PublicId = url.PublicId;
+                        userImageFile.FileLink = url.SecureUri.ToString();
+                        user.ProfilePicture = url.SecureUri.ToString();
+                    }
                 }
                 else
                 {
@@ -77,12 +79,12 @@ namespace JobPlatform.Services.Data
             return true;
         }
 
-        public Task UploadImageFileAsync(IFormFile file, ApplicationUser user, string fileName)
+    public Task UploadImageFileAsync(IFormFile file, ApplicationUser user, string fileName)
         {
             throw new NotImplementedException();
         }
 
-        private async Task<ImageUploadResult> Upload(IFormFile file)
+    private async Task<ImageUploadResult> Upload(IFormFile file)
         {
             byte[] uploadFile;
             ImageUploadResult result;
@@ -104,11 +106,11 @@ namespace JobPlatform.Services.Data
             return result;
         }
 
-        private async Task<bool> IsPresent(string publicId)
+    private async Task<bool> IsPresentAsync(string publicId)
         {
             var result = await this.cloudinary.GetResourceAsync(new GetResourceParams(publicId));
 
-            if (result.SecureUrl.ToString() != null)
+            if (result.Error == null)
             {
                 return true;
             }
