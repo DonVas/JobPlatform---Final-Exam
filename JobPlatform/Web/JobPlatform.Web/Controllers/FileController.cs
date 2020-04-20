@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using CloudinaryDotNet.Actions;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data;
+    using JobPlatform.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 

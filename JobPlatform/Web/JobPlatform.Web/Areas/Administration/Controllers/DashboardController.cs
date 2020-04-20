@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.Areas.Administration.Controllers
+﻿using JobPlatform.Services.Data.Interfaces;
+
+namespace JobPlatform.Web.Areas.Administration.Controllers
 {
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data;

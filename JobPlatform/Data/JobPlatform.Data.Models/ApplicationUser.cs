@@ -1,4 +1,7 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
+
+using JobPlatform.Data.Models.Enums;
+
 namespace JobPlatform.Data.Models
 {
     using System;
@@ -35,6 +38,7 @@ namespace JobPlatform.Data.Models
         [Url]
         public string ProfilePicture { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
 
         public Gender Gender { get; set; } = Gender.Unknown;

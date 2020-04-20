@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Services.Data
+﻿using JobPlatform.Services.Data.Interfaces;
+
+namespace JobPlatform.Services.Data
 {
     using System.Collections.Generic;
     using System.Linq;

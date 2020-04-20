@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.Controllers
+﻿using JobPlatform.Services.Data.Interfaces;
+
+namespace JobPlatform.Web.Controllers
 {
     using System;
     using System.Threading.Tasks;

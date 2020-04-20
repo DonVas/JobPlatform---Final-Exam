@@ -80,7 +80,9 @@
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (this.ModelState.IsValid)
             {
-                var defautRole = this.roleRepository.All()?.FirstOrDefault(x => x.Name == GlobalConstants.Guest).Name;
+                var defautRole = this.roleRepository.All()?
+                    .FirstOrDefault(x => x.Name == GlobalConstants.Guest)?
+                    .Name;
                 var user = new ApplicationUser
                 {
                     UserName = this.Input.Email,

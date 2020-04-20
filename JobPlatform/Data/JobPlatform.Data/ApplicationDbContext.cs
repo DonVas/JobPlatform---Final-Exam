@@ -31,7 +31,16 @@ namespace JobPlatform.Data
 
         public virtual DbSet<File> File { get; set; }
 
+        public DbSet<Candidate> Candidates { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
+
+        public DbSet<Job> Jobs { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<JobCandidate> JobCandidates { get; set; }
+
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -69,6 +78,26 @@ namespace JobPlatform.Data
                 b.HasMany(e => e.RoleClaims)
                     .WithOne(e => e.Role)
                     .HasForeignKey(rc => rc.RoleId)
+                    .IsRequired();
+            });
+
+            builder.Entity<JobCandidate>().HasKey(sc => new { sc.JobId, sc.CandidateId });
+
+            builder.Entity<JobCandidate>()
+                .HasOne<Candidate>(sc => sc.Candidate)
+                .WithMany(s => s.Jobs)
+                .HasForeignKey(sc => sc.CandidateId);
+
+            builder.Entity<JobCandidate>()
+                .HasOne<Job>(sc => sc.Job)
+                .WithMany(s => s.Candidates)
+                .HasForeignKey(sc => sc.JobId);
+
+            builder.Entity<Company>(c =>
+            {
+                c.HasMany(e => e.Jobs)
+                    .WithOne(s => s.Company)
+                    .HasForeignKey(co => co.CompanyId)
                     .IsRequired();
             });
 

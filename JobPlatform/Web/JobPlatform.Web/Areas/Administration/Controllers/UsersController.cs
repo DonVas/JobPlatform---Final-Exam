@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.Areas.Administration.Controllers
+﻿using JobPlatform.Services.Data.Interfaces;
+
+namespace JobPlatform.Web.Areas.Administration.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -26,7 +28,7 @@
             var viewModel = new UsersViewModel
             {
                 Users = await this.userService.GetAllUsersAsync(),
-                Roles = this.userService.GetAllRoles<RoleViewModel>()
+                Roles = this.userService.GetAllRoles<RoleViewModel>(),
             };
 
             if (viewModel.Users == null && viewModel.Roles == null)

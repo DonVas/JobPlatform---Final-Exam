@@ -6,7 +6,8 @@
     using System.Threading.Tasks;
 
     using JobPlatform.Data.Models;
-    using JobPlatform.Services.Data;
+    using JobPlatform.Services.Data.Interfaces;
+    using JobPlatform.Web.Infrastructure;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -30,10 +31,17 @@
 
         public string Username { get; set; }
 
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Url]
         public string ProfilePicture { get; set; }
 
         [BindProperty]
         [AllowNull]
+        [DataType(DataType.Upload)]
+        [MaxFileSize(5 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile PictureFile { get; set; }
 
         [TempData]
@@ -60,6 +68,9 @@
             [Display(Name = "Family Name")]
             public string FamilyName { get; set; }
 
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+            public DateTime? Birthdate { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -134,6 +145,13 @@
             user.FirstName = this.Input.FirstName;
             user.MiddleName = this.Input.MiddleName;
             user.FamilyName = this.Input.FamilyName;
+            if (this.Input.Birthdate != null)
+            {
+                DateTime res;
+                DateTime.TryParse(this.Input.Birthdate.ToString(), out res);
+                user.Birthdate = res;
+            }
+
             var result = await this.userManager.UpdateAsync(user);
 
             // However, it always succeeds inspite of not updating the database
@@ -150,12 +168,14 @@
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await this.userManager.GetUserNameAsync(user);
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
-
-            this.Username = userName;
+            var birthdate = user.Birthdate;
+            this.ProfilePicture = user.ProfilePicture;
+            this.Email = await this.userManager.GetEmailAsync(user);
+            this.Username = await this.userManager.GetUserNameAsync(user);
             this.Input = new InputModel
             {
+                Birthdate = birthdate,
                 PhoneNumber = phoneNumber,
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,

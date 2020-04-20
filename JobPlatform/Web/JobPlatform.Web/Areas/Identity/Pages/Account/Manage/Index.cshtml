@@ -80,15 +80,8 @@
                                     <tr v-show="Birthdate">
                                         <th>Birthdate</th>
                                         <td>
-                                            <input asp-for="Username" class="form-control" />
-                                            @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
-                                        </td>
-                                    </tr>
-                                    <tr v-show="Phone Number">
-                                        <th>Phone Number</th>
-                                        <td>
-                                            <input asp-for="Input.PhoneNumber" class="form-control" />
-                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                            <input asp-for="Input.Birthdate" class="form-control"/>
+                                            <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
                                         </td>
                                     </tr>
                                 </table>
@@ -99,15 +92,15 @@
                                     <tr v-show="Email">
                                         <th>Email</th>
                                         <td>
-                                            <input asp-for="Username" class="form-control" />
-                                            @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
+                                            <input asp-for="Email" class="form-control" disabled=""/>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </td>
                                     </tr>
-                                    <tr v-show="Phone_number">
-                                        <th>Phone number</th>
+                                    <tr v-show="Phone Number">
+                                        <th>Phone Number</th>
                                         <td>
-                                            <input asp-for="Username" class="form-control" />
-                                            @*<span asp-validation-for="Input.FirstName" class="text-danger"></span>*@
+                                            <input asp-for="Input.PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                                         </td>
                                     </tr>
                                 </table>

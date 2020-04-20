@@ -18,13 +18,17 @@ namespace JobPlatform.Web.Infrastructure
         object value, ValidationContext validationContext)
         {
             var file = value as IFormFile;
-            var extension = Path.GetExtension(file.FileName);
-            if (!(file == null))
+            var extension = Path.GetExtension(file?.FileName);
+            if (file != null)
             {
                 if (!this.extensions.Contains(extension.ToLower()))
                 {
                     return new ValidationResult(this.GetErrorMessage());
                 }
+            }
+            else
+            {
+                return ValidationResult.Success;
             }
 
             return ValidationResult.Success;

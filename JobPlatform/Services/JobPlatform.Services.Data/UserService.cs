@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Services.Data
+﻿using JobPlatform.Services.Data.Interfaces;
+
+namespace JobPlatform.Services.Data
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -24,7 +26,6 @@
             this.userRepository = deletableUserRepository;
             this.roleRepository = deletableRoleRepository;
             this.userManager = userManager;
-
         }
 
         public IEnumerable<T> GetAllRoles<T>()

@@ -1,4 +1,4 @@
-﻿namespace JobPlatform.Services.Data
+﻿namespace JobPlatform.Services.Data.Interfaces
 {
     using System.Threading.Tasks;
 

@@ -1,9 +1,6 @@
 ﻿namespace JobPlatform.Data.Common.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using JobPlatform.Data.Models;
 
@@ -11,6 +8,7 @@
     {
         public string PublicId { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         [Url]

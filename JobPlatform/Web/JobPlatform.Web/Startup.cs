@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using JobPlatform.Services.Data.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobPlatform.Web
 {
@@ -101,6 +102,9 @@ namespace JobPlatform.Web
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRolesService, RolesService>();
+            services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IJobService, JobService>();
+            services.AddTransient<ICandidateService, CandidateService>();
 
         }
 

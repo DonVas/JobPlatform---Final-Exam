@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
-using JobPlatform.Data.Models;
-using Microsoft.AspNetCore.Identity;
-
-namespace JobPlatform.Services.Data
+﻿namespace JobPlatform.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using JobPlatform.Data.Common.Models;
+    using JobPlatform.Data.Models;
+    using JobPlatform.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Http;
 
     public class FileService : IFileService
@@ -88,13 +84,13 @@ namespace JobPlatform.Services.Data
         {
             byte[] uploadFile;
             ImageUploadResult result;
-            await using (var memoryStream = new MemoryStream())
+            await using (var memoryStream = new System.IO.MemoryStream())
             {
                 await file.CopyToAsync(memoryStream);
                 uploadFile = memoryStream.ToArray();
             }
 
-            await using (var uploadImageStream = new MemoryStream(uploadFile))
+            await using (var uploadImageStream = new System.IO.MemoryStream(uploadFile))
             {
                 var uploadParams = new ImageUploadParams()
                 {

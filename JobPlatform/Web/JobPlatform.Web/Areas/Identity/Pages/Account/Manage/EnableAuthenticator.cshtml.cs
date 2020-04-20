@@ -150,7 +150,7 @@
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                this.urlEncoder.Encode("JobPlatform.Web"),
+                this.urlEncoder.Encode("JobPlatform"),
                 this.urlEncoder.Encode(email),
                 unformattedKey);
         }

@@ -23,11 +23,14 @@
                         <li class="nav-item align-baseline">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        @if (this.User.IsInRole("Employer") || this.User.IsInRole("Moderator"))
+                        {
+                            <li class="nav-item align-baseline">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="Companies">Companies</a>
+                            </li>
+                        }
                         <li class="nav-item align-baseline">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                        </li>
-                        <li class="nav-item align-baseline">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Jobs" asp-action="Jobs">Jobs</a>
                         </li>
                     </ul>
                 </div>
