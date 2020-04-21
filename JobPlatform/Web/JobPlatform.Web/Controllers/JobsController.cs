@@ -8,7 +8,7 @@ namespace JobPlatform.Web.Controllers
     {
         public IActionResult Jobs()
         {
-            var viewModel = new JobsViewModel();
+            var viewModel = new JobViewModel();
 
             return this.View(viewModel);
         }

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JobPlatform.Data.Common.Repositories;
-using JobPlatform.Data.Models;
-using JobPlatform.Services.Data.Interfaces;
-using JobPlatform.Services.Mapping;
-using JobPlatform.Web.ViewModels.Company;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
+﻿using System.Threading.Tasks;
 
 namespace JobPlatform.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using JobPlatform.Data.Common.Repositories;
+    using JobPlatform.Data.Models;
+    using JobPlatform.Services.Data.Interfaces;
+    using JobPlatform.Services.Mapping;
+    using Microsoft.AspNetCore.Identity;
+
     public class CompanyService : ICompanyService
     {
         private readonly IDeletableEntityRepository<Company> companyRepository;
@@ -30,22 +29,35 @@ namespace JobPlatform.Services.Data
             return this.companyRepository.All().To<T>().ToList();
         }
 
-        public async void AddCompany(CompanyCreateViewModel input, string id)
+        public async Task<int> AddCompany(
+            string companyName,
+            string companyDescription,
+            string companyWebsite,
+            string facebookWebsite,
+            string twitterWebsite,
+            string linkedInWebsite,
+            string logoPicture,
+            string userId)
         {
             var company = new Company()
             {
-                CompanyName = input.CompanyName,
-                CompanyDescription = input.CompanyDescription,
-                CompanyWebsite = input.CompanyWebsite,
-                FacebookWebsite = input.FacebookWebsite,
-                TwitterWebsite = input.TwitterWebsite,
-                LinkedInWebsite = input.LinkedInWebsite,
-                LogoPicture = input.LogoPicture,
-                UserId = id,
+                CompanyName = companyName,
+                CompanyDescription = companyDescription,
+                CompanyWebsite = companyWebsite,
+                FacebookWebsite = facebookWebsite,
+                TwitterWebsite = twitterWebsite,
+                LinkedInWebsite = linkedInWebsite,
+                LogoPicture = logoPicture,
+                UserId = userId,
             };
 
             await this.companyRepository.AddAsync(company);
-            await this.companyRepository.SaveChangesAsync();
+            return await this.companyRepository.SaveChangesAsync();
+        }
+
+        public T CompanyById<T>(string id)
+        {
+            return this.companyRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
         }
     }
 }

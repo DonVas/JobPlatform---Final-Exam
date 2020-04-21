@@ -1,4 +1,7 @@
-﻿namespace JobPlatform.Web.Controllers
+﻿using JobPlatform.Web.ViewModels.Companies;
+using Microsoft.AspNetCore.Http;
+
+namespace JobPlatform.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +11,7 @@
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data;
     using JobPlatform.Services.Data.Interfaces;
-    using JobPlatform.Web.ViewModels.Company;
+    using JobPlatform.Web.ViewModels.Companies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -27,35 +30,62 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Company()
-        {
-            var viewModel = new CompanyCreateViewModel();
-            return this.View(viewModel);
-        }
-
-        public IActionResult CreateCompany()
-        {
-            var viewModel = new CompanyCreateViewModel();
-
-            return this.View(viewModel);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> CreateCompany(CompanyCreateViewModel input)
+        public void UploadFile(IFormFile pictureFile)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            this.companyService.AddCompany(input, user.Id);
 
-            return this.View();
         }
 
-        public IActionResult Companies()
+        public IActionResult Index()
         {
             var viewModel = this.companyService.GetAllCompanies<CompanySimpleViewModel>();
 
             return this.View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult Company(string id)
+        {
+            var viewModel = this.companyService.CompanyById<CompanyViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        public IActionResult CreateCompany()
+        {
+            var viewDummy = new CompanyCreateViewModel();
+
+            return this.View(viewDummy);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCompany(CompanyCreateViewModel input)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest();
+            }
+
+            var result = this.companyService.AddCompany(
+                input.CompanyName,
+                input.CompanyDescription,
+                input.CompanyWebsite,
+                input.FacebookWebsite,
+                input.TwitterWebsite,
+                input.LinkedInWebsite,
+                input.LogoPicture,
+                user.Id).Result;
+            if (result != 1)
+            {
+                return this.NotFound();
+            }
+
+            return this.Redirect("/Companies/Companies");
+        }
+
+        [HttpDelete]
         public IActionResult DeleteCompany()
         {
             var viewModel = new List<CompanySimpleViewModel>();
@@ -63,13 +93,7 @@
             return this.View(viewModel);
         }
 
-        public IActionResult DetailsCompany()
-        {
-            var viewModel = new List<CompanySimpleViewModel>();
-
-            return this.View(viewModel);
-        }
-
+        [HttpPatch]
         public IActionResult EditCompany()
         {
             var viewModel = new List<CompanySimpleViewModel>();
