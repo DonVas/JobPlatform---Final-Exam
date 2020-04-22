@@ -10,8 +10,8 @@
     {
         Task<DelResResult> DeleteFileAsync(string publicId);
 
-        Task<bool> UploadProfileImageAsync(IFormFile file, ApplicationUser user);
+        Task<ImageUploadResult> UploadProfileImageAsync(IFormFile file, string userId);
 
-        Task UploadImageFileAsync(IFormFile file, ApplicationUser user, string fileName);
+        Task<ImageUploadResult> UploadImageFileAsync(IFormFile file, string userId, string fileName);
     }
 }

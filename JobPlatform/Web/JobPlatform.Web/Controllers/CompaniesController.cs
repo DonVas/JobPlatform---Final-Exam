@@ -19,21 +19,23 @@ namespace JobPlatform.Web.Controllers
     [Authorize(Roles = "Moderator, Employer")]
     public class CompaniesController : BaseController
     {
+        private readonly IFileService fileService;
         private readonly ICompanyService companyService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public CompaniesController(
+            IFileService fileService,
             ICompanyService companyService,
             UserManager<ApplicationUser> userManager)
         {
+            this.fileService = fileService;
             this.companyService = companyService;
             this.userManager = userManager;
         }
 
-        [HttpPost]
-        public void UploadFile(IFormFile pictureFile)
+        public IActionResult UploadFile(IFormFile pictureFile)
         {
-
+            return this.Ok();
         }
 
         public IActionResult Index()
@@ -53,9 +55,7 @@ namespace JobPlatform.Web.Controllers
 
         public IActionResult CreateCompany()
         {
-            var viewDummy = new CompanyCreateViewModel();
-
-            return this.View(viewDummy);
+            return this.View();
         }
 
         [HttpPost]
@@ -68,21 +68,23 @@ namespace JobPlatform.Web.Controllers
                 return this.BadRequest();
             }
 
-            var result = this.companyService.AddCompany(
+            var img = await this.fileService.UploadImageFileAsync(input.PictureFile, user.Id, "CompanyLogo");
+
+            int result = this.companyService.AddCompany(
                 input.CompanyName,
-                input.CompanyDescription,
-                input.CompanyWebsite,
-                input.FacebookWebsite,
-                input.TwitterWebsite,
-                input.LinkedInWebsite,
-                input.LogoPicture,
+                input.SanitizedCompanyDescription,
+                input?.CompanyWebsite,
+                input?.FacebookWebsite,
+                input?.TwitterWebsite,
+                input?.LinkedInWebsite,
+                img?.SecureUri.ToString(),
                 user.Id).Result;
-            if (result != 1)
+            if (result < 0)
             {
                 return this.NotFound();
             }
 
-            return this.Redirect("/Companies/Companies");
+            return this.RedirectToAction("Index");
         }
 
         [HttpDelete]

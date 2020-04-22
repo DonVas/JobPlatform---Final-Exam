@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Services.Data
+﻿using JobPlatform.Data.Common.Repositories;
+
+namespace JobPlatform.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -15,11 +17,13 @@
     public class FileService : IFileService
 {
     private readonly Cloudinary cloudinary;
+    private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
-    public FileService(Cloudinary cloudinary)
-        {
-            this.cloudinary = cloudinary;
-        }
+    public FileService(Cloudinary cloudinary, IDeletableEntityRepository<ApplicationUser> userRepository)
+    {
+        this.cloudinary = cloudinary;
+        this.userRepository = userRepository;
+    }
 
     public async Task<DelResResult> DeleteFileAsync(string publicId)
         {
@@ -36,49 +40,86 @@
             return result;
         }
 
-    public async Task<bool> UploadProfileImageAsync(IFormFile file, ApplicationUser user)
+    public async Task<ImageUploadResult> UploadProfileImageAsync(IFormFile file, string userId)
+    {
+        var user = this.userRepository
+            .All()
+            .FirstOrDefault(x => x.Id == userId);
+
+        if (file == null || user == null)
         {
-            if (file == null)
-            {
-                return false;
-            }
+            return new ImageUploadResult();
+        }
 
-            var userImageFile = user.UserFiles.FirstOrDefault(x => x.Name == "ProfilePicture");
+        var userImageFile = user.UserFiles.Where(x => x.Name == "ProfilePicture").ToArray()[0];
 
-            if (userImageFile == null)
+        var url = await this.Upload(file);
+
+        if (userImageFile == null)
+        {
+            var userFile = new File() { Name = "ProfilePicture", PublicId = url.PublicId, FileLink = url.SecureUri.ToString()};
+            user.UserFiles.Add(userFile);
+            user.ProfilePicture = url.SecureUri.ToString();
+        }
+        else
+        {
+
+            if (url.SecureUri != null)
             {
-                var url = await this.Upload(file);
-                var userFile = new File() { Name = "ProfilePicture", PublicId = url.PublicId, FileLink = url.SecureUri.ToString()};
-                user.UserFiles.Add(userFile);
-                user.ProfilePicture = url.SecureUri.ToString();
+                var delResult = await this.DeleteFileAsync(userImageFile.PublicId);
+                if (delResult.Error == null)
+                {
+                    userImageFile.PublicId = url.PublicId;
+                    userImageFile.FileLink = url.SecureUri.ToString();
+                    user.ProfilePicture = url.SecureUri.ToString();
+                }
             }
             else
             {
-                var url = await this.Upload(file);
+                throw new Exception(message: "Error by uploading");
+            }
+        }
 
-                if (url.SecureUri != null)
-                {
-                    var delResult = await this.DeleteFileAsync(userImageFile.PublicId);
-                    if (delResult.Error == null)
-                    {
-                        userImageFile.PublicId = url.PublicId;
-                        userImageFile.FileLink = url.SecureUri.ToString();
-                        user.ProfilePicture = url.SecureUri.ToString();
-                    }
-                }
-                else
-                {
-                    throw new Exception(message: "Error by uploading");
-                }
+        return url;
+    }
+
+    public async Task<ImageUploadResult> UploadImageFileAsync(IFormFile file, string userId, string fileName)
+    {
+        var user = this.userRepository
+            .All()
+            .FirstOrDefault(x => x.Id == userId);
+
+        if (file == null || user == null)
+        {
+            return new ImageUploadResult();
+        }
+
+        var userImageFile = user.UserFiles.Where(x => x.Name == fileName).ToArray()[0];
+
+        if (userImageFile == null)
+        {
+            var url = await this.Upload(file);
+            var userFile = new File() {Name = fileName, PublicId = url.PublicId, FileLink = url.SecureUri.ToString()};
+            user.UserFiles.Add(userFile);
+            user.ProfilePicture = url.SecureUri.ToString();
+            return url;
+        }
+        else
+        {
+            var delResult = await this.DeleteFileAsync(userImageFile.PublicId);
+
+            if (delResult.Error == null)
+            {
+                var url = await this.Upload(file);
+                userImageFile.PublicId = url.PublicId;
+                userImageFile.FileLink = url.SecureUri.ToString();
+                user.ProfilePicture = url.SecureUri.ToString();
+                return url;
             }
 
-            return true;
+            return null;
         }
-
-    public Task UploadImageFileAsync(IFormFile file, ApplicationUser user, string fileName)
-        {
-            throw new NotImplementedException();
-        }
+    }
 
     private async Task<ImageUploadResult> Upload(IFormFile file)
         {

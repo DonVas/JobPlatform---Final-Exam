@@ -97,7 +97,7 @@
 
             if (this.PictureFile != null)
             {
-                await this.fileService.UploadProfileImageAsync(this.PictureFile, user);
+                await this.fileService.UploadProfileImageAsync(this.PictureFile, user.Id);
 
                 this.ProfilePicture = user.ProfilePicture;
             }

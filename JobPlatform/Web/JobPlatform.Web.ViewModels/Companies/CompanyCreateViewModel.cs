@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
+
     using Ganss.XSS;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
@@ -14,7 +15,8 @@
         [StringLength(100)]
         public string CompanyName { get; set; }
 
-        [StringLength(100000)] public string CompanyDescription { get; set; }
+        [StringLength(100000)]
+        public string CompanyDescription { get; set; }
 
         public string SanitizedCompanyDescription => new HtmlSanitizer().Sanitize(this.CompanyDescription);
 

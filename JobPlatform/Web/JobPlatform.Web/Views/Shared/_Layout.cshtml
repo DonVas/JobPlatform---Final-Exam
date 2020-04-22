@@ -22,7 +22,7 @@
                         <li class="nav-item align-baseline">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (this.User.IsInRole(@GlobalConstants.Employer) || this.User.IsInRole(@GlobalConstants.Employer))
+                        @if (this.User.IsInRole(@GlobalConstants.Employer) || this.User.IsInRole(@GlobalConstants.Moderator))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -32,7 +32,9 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="Index">All Companies</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="CreateCompany">Add Company</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="Index">Companies</a>
+                                    @if(this.User.IsInRole(@GlobalConstants.Administrator) || this.User.IsInRole(@GlobalConstants.Moderator)){
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="EditCompany">Companies Edit Form</a>
+                                    }
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
