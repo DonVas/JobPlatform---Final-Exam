@@ -27,4 +27,8 @@
     <ProjectReference Include="..\JobPlatform.Web.Infrastructure\JobPlatform.Web.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="User\Job\" />
+  </ItemGroup>
+
 </Project>

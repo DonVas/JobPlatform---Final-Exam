@@ -1,0 +1,47 @@
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobSimpleViewModel >
+@{
+    this.ViewData["Title"] = "Jobs";
+}
+<h1>@this.ViewData["Title"]</h1>
+<hr />
+@if (Model != null)
+{
+
+
+@foreach (var item in Model)
+{
+    <div class="container"> 
+    <div class="row shadow-lg mb-2 bg-white rounded">
+        <div class="w-auto h-auto rounded float-left card-img col-sm-2">
+            <a asp-action="Company" asp-route-id="@item.CompanyId">
+                <img src="@item.CompanyLogoPicture" alt="@item.CompanyEmail" class="fit-image">
+            </a>
+        </div>
+        <div class="position-relative col-md-10">
+            <h5 class="mt-0">@item.JobTitle</h5>
+            <h5 class="mt-0">@item.JobType</h5>
+            <h5 class="mt-0">@item.JobCategory</h5>
+            <p>@item.Description</p>
+            <a asp-action="Company" asp-route-id="@item.Id">See details</a>
+        </div>
+    </div>
+    </div>
+}
+}
+else
+{
+<div>
+    <h3 class="mt-0">No Job for Presenting</h3>
+</div>
+
+}
+
+@section Scripts {
+    <style>
+        .fit-image {
+            width: 60%;
+            object-fit: cover;
+            height: 100px; /* only if you want fixed height */
+        }
+    </style>
+}

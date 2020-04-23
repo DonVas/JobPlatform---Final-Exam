@@ -29,6 +29,10 @@
     <Compile Remove="Migrations\20200419122407_AddRolesNavigationProperties.Designer.cs" />
     <Compile Remove="Migrations\20200420125132_AddCandidateCompanyJob.cs" />
     <Compile Remove="Migrations\20200420125132_AddCandidateCompanyJob.Designer.cs" />
+    <Compile Remove="Migrations\20200423143336_AddUserToCompany.cs" />
+    <Compile Remove="Migrations\20200423143336_AddUserToCompany.Designer.cs" />
+    <Compile Remove="Migrations\20200423143957_AddUserToCompany.cs" />
+    <Compile Remove="Migrations\20200423143957_AddUserToCompany.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

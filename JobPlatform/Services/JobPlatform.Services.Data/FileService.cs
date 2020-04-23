@@ -51,11 +51,11 @@ namespace JobPlatform.Services.Data
             return new ImageUploadResult();
         }
 
-        var userImageFile = user.UserFiles.Where(x => x.Name == "ProfilePicture").ToArray()[0];
+        var userImageFile = user.UserFiles.FirstOrDefault(x => x.Name == "ProfilePicture");
 
         var url = await this.Upload(file);
 
-        if (userImageFile == null)
+        if (userImageFile?.Name != "ProfilePicture" || userImageFile == null)
         {
             var userFile = new File() { Name = "ProfilePicture", PublicId = url.PublicId, FileLink = url.SecureUri.ToString()};
             user.UserFiles.Add(userFile);
@@ -63,7 +63,6 @@ namespace JobPlatform.Services.Data
         }
         else
         {
-
             if (url.SecureUri != null)
             {
                 var delResult = await this.DeleteFileAsync(userImageFile.PublicId);
@@ -94,12 +93,12 @@ namespace JobPlatform.Services.Data
             return new ImageUploadResult();
         }
 
-        var userImageFile = user.UserFiles.Where(x => x.Name == fileName).ToArray()[0];
+        var userImageFile = user.UserFiles.FirstOrDefault(x => x.Name == fileName);
 
-        if (userImageFile == null)
+        if (userImageFile?.Name != fileName || userImageFile == null)
         {
             var url = await this.Upload(file);
-            var userFile = new File() {Name = fileName, PublicId = url.PublicId, FileLink = url.SecureUri.ToString()};
+            var userFile = new File() { Name = fileName, PublicId = url.PublicId, FileLink = url.SecureUri.ToString() };
             user.UserFiles.Add(userFile);
             user.ProfilePicture = url.SecureUri.ToString();
             return url;
@@ -113,7 +112,6 @@ namespace JobPlatform.Services.Data
                 var url = await this.Upload(file);
                 userImageFile.PublicId = url.PublicId;
                 userImageFile.FileLink = url.SecureUri.ToString();
-                user.ProfilePicture = url.SecureUri.ToString();
                 return url;
             }
 

@@ -13,9 +13,11 @@
     public class CompanyCreateViewModel : IMapFrom<Company>
     {
         [StringLength(100)]
+        [Required]
         public string CompanyName { get; set; }
 
         [StringLength(100000)]
+        [Required]
         public string CompanyDescription { get; set; }
 
         public string SanitizedCompanyDescription => new HtmlSanitizer().Sanitize(this.CompanyDescription);

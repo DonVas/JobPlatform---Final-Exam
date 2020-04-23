@@ -1,0 +1,32 @@
+﻿@model JobPlatform.Web.ViewModels.Companies.CompanySimpleViewModel
+
+<h4>Company</h4>
+<hr />
+@if (@Model != null)
+{
+    <div class="container">
+        <div class="row shadow-lg mb-2 bg-white rounded">
+            <div class="w-auto h-auto rounded float-left card-img col-sm-2">
+                <a asp-area="Employer" asp-action="Details" asp-route-id="@Model.Id">
+                    <img src="@Model.LogoPicture" alt="@Model.CompanyName" class="fit-image">
+                </a>
+            </div>
+            <div class="position-relative col-md-10">
+                <h5 class="mt-0">@Model.CompanyName</h5>
+                <p>@Model.ShortCompanyDescription</p>
+                <a asp-area="Employer" asp-action="Details" asp-route-id="@Model.Id">See details</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+else
+{
+    <a asp-area="Employer" asp-action="CreateCompany">Add Company</a>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

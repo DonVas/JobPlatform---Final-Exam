@@ -18,8 +18,8 @@
             get
             {
                 var content = WebUtility.HtmlDecode(Regex.Replace(this.CompanyDescription, @"<[^>]+>", string.Empty));
-                return content.Length > 300
-                    ? content.Substring(0, 300) + "..."
+                return content.Length > 200
+                    ? content.Substring(0, 200) + "..."
                     : content;
             }
         }

@@ -1,0 +1,39 @@
+﻿@using JobPlatform.Common
+@using JobPlatform.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+
+@if (this.User.IsInRole(@GlobalConstants.Moderator) || this.User.IsInRole(@GlobalConstants.Administrator))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Company
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Index">Company</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="Index">All Companies</a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Jobs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Jobs" asp-action="Jobs">Jobs</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Jobs" asp-action="Jobs">Jobs</a>
+        </div>
+    </li>
+}
+else if (this.User.IsInRole(@GlobalConstants.Employer))
+{
+    <li class="nav-item align-baseline">
+        <a class="nav-link text-dark" asp-area="Employer" asp-controller="Company" asp-action="Index">Company</a>
+    </li>
+    <li class="nav-item align-baseline">
+        <a class="nav-link text-dark" asp-area="Employer" asp-controller="Jobs" asp-action="Index">Jobs</a>
+    </li>
+    <li class="nav-item align-baseline">
+        <a class="nav-link text-dark" asp-area="Employer" asp-controller="Candidates" asp-action="Index">Candidates</a>
+    </li>
+}
+

@@ -35,7 +35,7 @@
 
         public string CompanyId { get; set; }
 
-        public virtual Data.Models.Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
         public virtual ICollection<JobCandidate> Candidates { get; set; }
     }

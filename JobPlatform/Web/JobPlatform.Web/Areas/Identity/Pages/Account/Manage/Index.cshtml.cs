@@ -95,6 +95,12 @@
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
+            if (!this.ModelState.IsValid)
+            {
+                await this.LoadAsync(user);
+                return this.Page();
+            }
+
             if (this.PictureFile != null)
             {
                 await this.fileService.UploadProfileImageAsync(this.PictureFile, user.Id);

@@ -12,5 +12,7 @@
         Task<int> AddCompany(string companyName, string companyDescription, string companyWebsite, string facebookWebsite, string twitterWebsite, string linkedInWebsite, string logoPicture, string userId);
 
         T CompanyById<T>(string id);
+
+        T CompanyByUserId<T>(string id);
     }
 }

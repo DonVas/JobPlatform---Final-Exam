@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
-using JobPlatform.Web.ViewModels.Jobs;
-using Microsoft.AspNetCore.Mvc;
-
-namespace JobPlatform.Web.Controllers
+﻿namespace JobPlatform.Web.Controllers
 {
+    using System.Collections.Generic;
+
+    using JobPlatform.Web.ViewModels.Jobs;
+    using Microsoft.AspNetCore.Mvc;
+
     public class JobsController : BaseController
     {
-        public IActionResult Jobs()
+        public IActionResult Index()
         {
-            var viewModel = new JobViewModel();
-
-            return this.View(viewModel);
+            return this.View();
         }
 
         public IActionResult Job()
         {
             var viewModel = new List<JobViewModel>();
 
-            return this.View(viewModel);
+            return this.View();
         }
     }
 }

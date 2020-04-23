@@ -59,5 +59,10 @@ namespace JobPlatform.Services.Data
         {
             return this.companyRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
         }
+
+        public T CompanyByUserId<T>(string id)
+        {
+            return this.companyRepository.All().Where(x => x.UserId == id).To<T>().FirstOrDefault();
+        }
     }
 }

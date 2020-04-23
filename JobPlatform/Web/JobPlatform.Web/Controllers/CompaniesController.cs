@@ -65,7 +65,7 @@ namespace JobPlatform.Web.Controllers
 
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.View(input);
             }
 
             var img = await this.fileService.UploadImageFileAsync(input.PictureFile, user.Id, "CompanyLogo");
@@ -79,9 +79,10 @@ namespace JobPlatform.Web.Controllers
                 input?.LinkedInWebsite,
                 img?.SecureUri.ToString(),
                 user.Id).Result;
+
             if (result < 0)
             {
-                return this.NotFound();
+                return this.View(input);
             }
 
             return this.RedirectToAction("Index");
