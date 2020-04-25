@@ -1,5 +1,4 @@
 ﻿{
-  "version": "1.0",
   "defaultProvider": "jsdelivr",
   "libraries": [
     {
@@ -86,7 +85,8 @@
     {
       "library": "datatables.net@1.10.20",
       "destination": "wwwroot/",
-      "files": [ "js/jquery.dataTables.js" 
+      "files": [
+        "js/jquery.dataTables.js"
       ]
     },
     {
@@ -94,6 +94,7 @@
       "destination": "wwwroot/",
       "files": [ "css/jquery.dataTables.css" ]
     }
-    
-  ]
+
+  ],
+  "version": "1.0"
 }

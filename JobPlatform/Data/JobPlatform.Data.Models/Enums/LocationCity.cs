@@ -2,8 +2,7 @@
 {
     public enum LocationCity
     {
-        None
-        , София
+          София
         , Пловдив
         , Варна
         , Бургас

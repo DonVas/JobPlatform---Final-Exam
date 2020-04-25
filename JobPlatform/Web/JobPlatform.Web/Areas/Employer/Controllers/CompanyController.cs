@@ -85,20 +85,56 @@
                 return this.RedirectToAction("Index");
             }
 
-            [HttpDelete]
-            public IActionResult DeleteCompany()
+            public IActionResult Delete(string id)
             {
-                var viewModel = new List<CompanySimpleViewModel>();
+                var viewModel = this.companyService.CompanyById<CompanySimpleViewModel>(id);
 
                 return this.View(viewModel);
             }
 
-            [HttpPatch]
-            public IActionResult EditCompany()
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public IActionResult DeleteCompany(string id)
             {
-                var viewModel = new List<CompanySimpleViewModel>();
+                var result = this.companyService.DeleteById(id).Result;
+
+                if (!result)
+                {
+                    return this.NotFound();
+                }
+
+                return this.RedirectToAction("Index");
+            }
+
+            public IActionResult EditCompany(string id)
+            {
+                var viewModel = this.companyService.CompanyById<CompanyEditViewModel>(id);
 
                 return this.View(viewModel);
+            }
+
+            [HttpPost]
+            public async Task<IActionResult> EditCompany(CompanyEditViewModel input)
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View(input);
+                }
+
+                var img = await this.fileService.UploadImageFileAsync(input.PictureFile, user.Id, "CompanyLogo");
+
+                int result = this.companyService.EditCompany(
+                    input.CompanyName,
+                    input.SanitizedCompanyDescription,
+                    input?.CompanyWebsite,
+                    input?.FacebookWebsite,
+                    input?.TwitterWebsite,
+                    input?.LinkedInWebsite,
+                    img?.SecureUri.ToString(),
+                    input.Id).Result;
+
+                return this.RedirectToAction("Details");
             }
         }
 }

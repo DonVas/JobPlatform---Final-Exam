@@ -1,6 +1,4 @@
-﻿using JobPlatform.Data.Common.Repositories;
-
-namespace JobPlatform.Services.Data
+﻿namespace JobPlatform.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +8,7 @@ namespace JobPlatform.Services.Data
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using JobPlatform.Data.Common.Models;
+    using JobPlatform.Data.Common.Repositories;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data.Interfaces;
     using Microsoft.AspNetCore.Http;
@@ -100,7 +99,6 @@ namespace JobPlatform.Services.Data
             var url = await this.Upload(file);
             var userFile = new File() { Name = fileName, PublicId = url.PublicId, FileLink = url.SecureUri.ToString() };
             user.UserFiles.Add(userFile);
-            user.ProfilePicture = url.SecureUri.ToString();
             return url;
         }
         else

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using JobPlatform.Data.Models.Enums;
-
-namespace JobPlatform.Data.Models
+﻿namespace JobPlatform.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using JobPlatform.Data.Common.Models;
+    using JobPlatform.Data.Models.Enums;
 
     public class Job : BaseDeletableModel<string>
     {
@@ -24,10 +23,10 @@ namespace JobPlatform.Data.Models
         public string JobTitle { get; set; }
 
         [Required]
-        public JobCategory JobCategory { get; set; } = JobCategory.None;
+        public JobCategory JobCategory { get; set; } = JobCategory.Автомобили;
 
         [Required]
-        public LocationCity LocationCity { get; set; } = LocationCity.None;
+        public LocationCity LocationCity { get; set; } = LocationCity.Асеновград;
 
         [Required]
         public JobType JobType { get; set; } = JobType.FullTime;

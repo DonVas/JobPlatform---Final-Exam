@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using JobPlatform.Web.ViewModels.Companies;
 
 namespace JobPlatform.Services.Data
 {
@@ -55,6 +56,31 @@ namespace JobPlatform.Services.Data
             return await this.companyRepository.SaveChangesAsync();
         }
 
+        public async Task<int> EditCompany(
+            string companyName,
+            string companyDescription,
+            string companyWebsite,
+            string facebookWebsite,
+            string twitterWebsite,
+            string linkedInWebsite,
+            string logoPicture,
+            string id)
+        {
+            var company = this.CompanyById<CompanyEditViewModel>(id);
+
+            company.CompanyName = companyName;
+            company.CompanyDescription = companyDescription;
+            company.CompanyWebsite = companyWebsite;
+            company.FacebookWebsite = facebookWebsite;
+            company.TwitterWebsite = twitterWebsite;
+            company.LinkedInWebsite = linkedInWebsite;
+            company.LogoPicture = logoPicture;
+
+            var result = this.companyRepository.All().Where(x => x.Id == id).To<Company>().FirstOrDefault();
+            this.companyRepository.Update(result);
+            return await this.companyRepository.SaveChangesAsync();
+        }
+
         public T CompanyById<T>(string id)
         {
             return this.companyRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
@@ -63,6 +89,25 @@ namespace JobPlatform.Services.Data
         public T CompanyByUserId<T>(string id)
         {
             return this.companyRepository.All().Where(x => x.UserId == id).To<T>().FirstOrDefault();
+        }
+
+        public Company CompanyByUserId(string id)
+        {
+            return this.companyRepository.All().FirstOrDefault(x => x.UserId == id);
+        }
+
+        public async Task<bool> DeleteById(string id)
+        {
+            var company = this.companyRepository.All().FirstOrDefault(x => x.Id == id);
+
+            if (company != null)
+            {
+                this.companyRepository.Delete(company);
+                await this.companyRepository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

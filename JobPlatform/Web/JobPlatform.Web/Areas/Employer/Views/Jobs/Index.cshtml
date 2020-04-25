@@ -1,89 +1,68 @@
-﻿@model IEnumerable<JobPlatform.Data.Models.Job>
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobSimpleViewModel>
 
-<p>
-    <a asp-action="AddJob">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocationCity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedOn)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobCategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedOn)
-            </td>
-            <td>
-                <a asp-action="EditJob" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="DeleteJob" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (!Model.Any())
+{
+    <a class="btn btn-info" asp-action="AddJob">Create New</a>
 }
-    </tbody>
-</table>
+else
+{
+    <div class="card shadow col-12">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="userTable" width="98%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>JobTitle</th>
+                            <th>JobCategory</th>
+                            <th>LocationCity</th>
+                            <th>JobType</th>
+                            <th>CompanyEmail</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var job in this.Model)
+                        {
+                            <tr id="@job.Id">
+
+                                <td>
+                                    <p>@job.JobTitle</p>
+                                </td>
+                                <td>
+                                    <p>@job.JobCategory</p>
+                                </td>
+                                <td>
+                                    <p>@job.LocationCity</p>
+                                </td>
+                                <td>
+                                    <p>@job.JobType</p>
+                                </td>
+                                <td>
+                                    <p>@job.CompanyEmail</p>
+                                </td>
+                                <td>
+                                    <p>@job.SanitizedContent</p>
+                                </td>
+                                <td>
+                                    <a asp-action="EditJob" asp-route-id="@job.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@job.Id">Details</a> |
+                                    <a asp-action="DeleteJob" asp-route-id="@job.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript" charset="utf8" src="~/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
+}

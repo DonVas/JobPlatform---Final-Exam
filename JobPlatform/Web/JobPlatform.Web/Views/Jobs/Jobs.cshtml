@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobViewModel>
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobSimpleViewModel>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -50,9 +50,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

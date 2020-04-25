@@ -1,11 +1,11 @@
-﻿using Ganss.XSS;
-
-namespace JobPlatform.Web.ViewModels.Jobs
+﻿namespace JobPlatform.Web.ViewModels.Jobs
 {
+
+    using Ganss.XSS;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
 
-    public class JobSimpleViewModel : IMapFrom<Job>
+    public class JobDetailsViewModel : IMapFrom<Job>
     {
         public string Id { get; set; }
 
@@ -21,10 +21,6 @@ namespace JobPlatform.Web.ViewModels.Jobs
 
         public string Description { get; set; }
 
-        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Description);
-
-        public string CompanyId { get; set; }
-
-        public string Company { get; set; }
+        public string SanitizedDescription => new HtmlSanitizer().Sanitize(this.Description);
     }
 }

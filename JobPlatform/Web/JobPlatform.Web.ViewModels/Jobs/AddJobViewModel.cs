@@ -1,19 +1,16 @@
 ﻿namespace JobPlatform.Web.ViewModels.Jobs
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using JobPlatform.Data.Models;
     using JobPlatform.Data.Models.Enums;
     using JobPlatform.Services.Mapping;
 
-    public class JobViewModel : IMapFrom<Job>
+    public class AddJobViewModel : IMapFrom<Job>
     {
-        public string Id { get; set; }
-
         [EmailAddress]
+        [Required]
         public string CompanyEmail { get; set; }
 
         [StringLength(20)]
@@ -21,22 +18,16 @@
         public string JobTitle { get; set; }
 
         [Required]
-        public JobCategory JobCategory { get; set; } = JobCategory.None;
+        public string JobCategory { get; set; }
 
         [Required]
-        public LocationCity LocationCity { get; set; } = LocationCity.None;
+        public string LocationCity { get; set; }
 
         [Required]
-        public JobType JobType { get; set; } = JobType.FullTime;
+        public string JobType { get; set; }
 
         [Required]
         [StringLength(100000)]
         public string Description { get; set; }
-
-        public string CompanyId { get; set; }
-
-        public virtual Company Company { get; set; }
-
-        public virtual ICollection<JobCandidate> Candidates { get; set; }
     }
 }

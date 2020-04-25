@@ -14,7 +14,7 @@
 
         public IActionResult Job()
         {
-            var viewModel = new List<JobViewModel>();
+            var viewModel = new List<JobDetailsViewModel>();
 
             return this.View();
         }
