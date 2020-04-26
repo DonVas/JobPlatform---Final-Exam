@@ -16,13 +16,16 @@ namespace JobPlatform.Services.Data
     {
         private readonly IDeletableEntityRepository<Job> jobRepository;
         private readonly IDeletableEntityRepository<Company> companyRepository;
+        private readonly IDeletableEntityRepository<Candidate> candidateRepository;
 
         public JobService(
             IDeletableEntityRepository<Job> jobRepository,
-            IDeletableEntityRepository<Company> companyRepository)
+            IDeletableEntityRepository<Company> companyRepository,
+            IDeletableEntityRepository<Candidate> candidateRepository)
         {
             this.jobRepository = jobRepository;
             this.companyRepository = companyRepository;
+            this.candidateRepository = candidateRepository;
         }
 
         public async Task AddJob(
@@ -89,7 +92,6 @@ namespace JobPlatform.Services.Data
             string jobType,
             string description)
         {
-
             var job = this.jobRepository.All().FirstOrDefault(x => x.Id == jobId);
 
             if (job == null)
@@ -106,6 +108,23 @@ namespace JobPlatform.Services.Data
 
             this.jobRepository.Update(job);
             await this.jobRepository.SaveChangesAsync();
+        }
+
+        public async Task<bool> AddCandidate(string jobId, string userId, string cv, string motivationLetter)
+        {
+            var job = this.jobRepository.All().FirstOrDefault(x => x.Id == jobId);
+            var candidate = new Candidate(cv, motivationLetter, userId);
+            await this.candidateRepository.AddAsync(candidate);
+
+            if (job != null)
+            {
+                job.Candidates.Add(new JobCandidate() { CandidateId = candidate.Id, JobId = job.Id });
+                this.jobRepository.Update(job);
+                await this.jobRepository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

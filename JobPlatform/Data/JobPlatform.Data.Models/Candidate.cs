@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Data.Models
+﻿using System;
+
+namespace JobPlatform.Data.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -7,6 +9,19 @@
 
     public class Candidate : BaseDeletableModel<string>
     {
+        public Candidate()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
+        public Candidate(string cv, string motivationLetter, string userId)
+        {
+            this.Cv = cv;
+            this.MotivationLetter = motivationLetter;
+            this.UserId = userId;
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string Cv { get; set; }
 
@@ -15,6 +30,8 @@
         public virtual ICollection<JobCandidate> Jobs { get; set; } = new HashSet<JobCandidate>();
 
         [Required]
+        public string UserId { get; set; }
+
         public virtual ApplicationUser User { get; set; }
     }
 }

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Companies.CompanySimpleViewModel>
+@{
+    this.ViewData["Title"] = "Companies";
+}
+<h1>@this.ViewData["Title"]</h1>
+<hr />
+@if (@Model != null)
+{
+    @foreach (var company in @Model)
+    {
+        <div class="container col-12">
+            <div class="row shadow-lg mb-2 bg-white rounded">
+                <div class="w-auto h-auto rounded float-left card-img col-sm-2">
+                    <a asp-area="User" asp-action="Details" asp-route-id="@company.Id">
+                        <img src="@company.LogoPicture" alt="@company.CompanyName" class="fit-image">
+                    </a>
+                </div>
+                <div class="position-relative col-md-10">
+                    <h5 class="mt-0">@company.CompanyName</h5>
+                    <p>@company.ShortCompanyDescription</p>
+                    <a class="btn btn-info" asp-area="User" asp-action="Details" asp-route-id="@company.Id">See details</a>|
+                    <a class="btn btn-info" asp-area="User" asp-controller="Jobs" asp-action="JobsByCompany" asp-route-id="@company.Id">See All Jobs</a>
+                </div>
+            </div>
+        </div>
+        <hr/>
+    }
+}
+else
+{
+    <h3>There is no companies!</h3>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,59 +1,50 @@
-﻿@model IEnumerable<JobPlatform.Data.Models.Candidate>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cv)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MotivationLetter)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedOn)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cv)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MotivationLetter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedOn)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Candidates.CandidateSimpleViewModel>
+@if (@Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.ProfilePicture)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cv)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MotivationLetter)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.User.ProfilePicture != null)
+                        {
+                            <img class="preview-img" src="@item.User.ProfilePicture" alt="Preview Image" width="100" height="100" />
+                        }
+                        else
+                        {
+                            <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShortSanitizeCv)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShortSanitizeMotivationLetter)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.User.Id">Details</a> |
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <h3>There is no Candidates</h3>
+}

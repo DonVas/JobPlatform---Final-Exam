@@ -29,5 +29,6 @@ namespace JobPlatform.Services.Data.Interfaces
 
         T GetJobById<T>(string id);
 
+        Task<bool> AddCandidate(string jobId, string userId, string cv, string motivationLetter);
     }
 }

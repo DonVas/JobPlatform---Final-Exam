@@ -4,23 +4,13 @@
     var url = Model?.LogoPicture;
 }
 
-<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-    tinymce.init({
-        selector: "textarea",
-        plugins: [
-            "image paste table link code media"
-        ]
-    });
-</script>
-
 <h1>@this.ViewData["Title"]</h1>
 <hr />
 <div class="row">
     <div class="col-12">
         <form asp-action="CreateCompany" class="col" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="preview text-center col-4 btn-file">
+            <div class="preview text-left col-4 btn-file">
                 @if (@url != null)
                 {
                     <img id='img-upload' class="img-fluid img-thumbnail" src="@url" alt="Preview Image" width="200" height="200" />
@@ -73,27 +63,5 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready( function() {
-            $(document).on('change', '.btn-file :file', function() {
-                var input = $(this)});
-
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-		        
-                    reader.onload = function (e) {
-                        $('#img-upload').attr('src', e.target.result);
-                    }
-		        
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-
-            $("#imgInp").change(function(){
-                readURL(this);
-            }); 	
-        });
-    </script>
     <partial name="_ValidationScriptsPartial" />
 }

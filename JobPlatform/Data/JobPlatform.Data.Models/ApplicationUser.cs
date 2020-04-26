@@ -1,7 +1,5 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
 
-using JobPlatform.Data.Models.Enums;
-
 namespace JobPlatform.Data.Models
 {
     using System;
@@ -9,7 +7,7 @@ namespace JobPlatform.Data.Models
     using System.ComponentModel.DataAnnotations;
 
     using JobPlatform.Data.Common.Models;
-
+    using JobPlatform.Data.Models.Enums;
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
@@ -52,6 +50,8 @@ namespace JobPlatform.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual Address Address { get; set; }
 
         public virtual ICollection<File> UserFiles { get; set; } = new HashSet<File>();
 

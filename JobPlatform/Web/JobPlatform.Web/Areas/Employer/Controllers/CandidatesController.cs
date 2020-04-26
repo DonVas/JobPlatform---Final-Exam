@@ -1,4 +1,9 @@
-﻿namespace JobPlatform.Web.Areas.Employer.Controllers
+﻿using JobPlatform.Data.Common.Repositories;
+using JobPlatform.Data.Models;
+using JobPlatform.Services.Data.Interfaces;
+using JobPlatform.Web.ViewModels.Candidates;
+
+namespace JobPlatform.Web.Areas.Employer.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -14,9 +19,17 @@
     [Area("Employer")]
     public class CandidatesController : BaseController
     {
+        private readonly ICandidateService candidateService;
+
+        public CandidatesController(ICandidateService candidateService)
+        {
+            this.candidateService = candidateService;
+        }
+
         public IActionResult Index()
         {
-           return this.View();
+            var viewModel = this.candidateService.GetAllCandidates<CandidateSimpleViewModel>();
+            return this.View(viewModel);
         }
 
         public IActionResult GetById(string id)
@@ -34,9 +47,11 @@
             return this.View();
         }
 
-        public IActionResult Details()
+        public IActionResult Details(string id)
         {
-            return this.View();
+            var viewModel = this.candidateService.GetCandidateByUserId<CandidateDetailsViewModel>(id);
+
+            return this.View(viewModel);
         }
     }
 }

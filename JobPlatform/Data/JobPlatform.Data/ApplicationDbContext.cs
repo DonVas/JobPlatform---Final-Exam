@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace JobPlatform.Data
+﻿namespace JobPlatform.Data
 {
     using System;
     using System.Linq;
@@ -29,7 +27,9 @@ namespace JobPlatform.Data
         {
         }
 
-        public virtual DbSet<File> File { get; set; }
+        public DbSet<File> File { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
 
         public DbSet<Candidate> Candidates { get; set; }
 
@@ -40,7 +40,6 @@ namespace JobPlatform.Data
         public DbSet<Setting> Settings { get; set; }
 
         public DbSet<JobCandidate> JobCandidates { get; set; }
-
 
         public override int SaveChanges() => this.SaveChanges(true);
 

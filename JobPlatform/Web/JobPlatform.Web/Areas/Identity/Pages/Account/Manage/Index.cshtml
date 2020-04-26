@@ -6,9 +6,6 @@
 }
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@{
-
-}
 
 <h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
@@ -108,29 +105,40 @@
 
                             <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
                                 <table class="table table-hover table-sm table-properties">
-                                    <tr v-show="user.address.country">
-                                        <th>country</th>
-                                        <td>{{user.address.country}}</td>
+                                    <tr v-show="country">
+                                        <th>Country</th>
+                                        <td>
+                                            <input asp-for="Input.Country" class="form-control" />
+                                            <span asp-validation-for="Input.Country" class="text-danger"></span>
+                                        </td>
                                     </tr>
-                                    <tr v-show="user.address.postal_code">
-                                        <th>postal code</th>
-                                        <td>{{user.address.postal_code}}</td>
+                                    <tr v-show="region">
+                                        <th>Region</th>
+                                        <td>
+                                            <input asp-for="Input.Region" class="form-control" />
+                                            <span asp-validation-for="Input.Region" class="text-danger"></span>
+                                        </td>
                                     </tr>
-                                    <tr v-show="user.address.locality">
-                                        <th>locality</th>
-                                        <td>{{user.address.locality}}</td>
+                                    <tr v-show="city">
+                                        <th>City</th>
+                                        <td>
+                                            <input asp-for="Input.City" class="form-control" />
+                                            <span asp-validation-for="Input.City" class="text-danger"></span>
+                                        </td>
                                     </tr>
-                                    <tr v-show="user.address.region">
-                                        <th>region</th>
-                                        <td>{{user.address.region}}</td>
+                                    <tr v-show="postal_code">
+                                        <th>Postal code</th>
+                                        <td>
+                                            <input asp-for="Input.PostCode" class="form-control" />
+                                            <span asp-validation-for="Input.PostCode" class="text-danger"></span>
+                                        </td>
                                     </tr>
-                                    <tr v-show="user.address.street_address">
-                                        <th>street address</th>
-                                        <td>{{user.address.street_address}}</td>
-                                    </tr>
-                                    <tr v-show="user.address.formatted">
-                                        <th>formatted</th>
-                                        <td>{{user.address.formatted}}</td>
+                                    <tr v-show="street_address">
+                                        <th>Street Address</th>
+                                        <td>
+                                            <input asp-for="Input.StreetAddress" class="form-control" />
+                                            <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -167,10 +175,5 @@
     </div>
 </div>
 @section Scripts {
-    <script>
-        document.getElementById("filePicture").onchange = function() {
-            document.getElementById("formPicture").submit();
-        }
-    </script>
     <partial name="_ValidationScriptsPartial" />
 }

@@ -2,3 +2,56 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+document.getElementById("filePicture").onchange = function() {
+    document.getElementById("formPicture").submit();
+}
+
+function changeRole(userId, roleId, onOff) {
+    var token = $("#userForm input[name=__RequestVerificationToken]").val();
+    var json = { userId: userId, roleId: roleId, onOff: onOff };
+
+    $.ajax({
+        url: "/api/role",
+        type: "POST",
+        data: JSON.stringify(json),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: { 'X-CSRF-TOKEN': token },
+        success: $.ready.then.call(reresh())
+
+    });
+
+    function reresh() {
+        setTimeout(function () {// wait for 5 secs(2)
+            location.reload(); // then reload the page.(3)
+        }, 1000);
+    }
+}
+
+$(document).ready(function () {
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this)
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-upload').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imgInp").change(function () {
+        readURL(this);
+    });
+});
+
+$(document).ready(function () {
+    $('#userTable').DataTable();
+});
+
+

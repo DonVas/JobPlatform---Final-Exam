@@ -1,15 +1,14 @@
-﻿using System.Threading.Tasks;
-using JobPlatform.Web.ViewModels.Companies;
-
-namespace JobPlatform.Services.Data
+﻿namespace JobPlatform.Services.Data
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using JobPlatform.Data.Common.Repositories;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data.Interfaces;
     using JobPlatform.Services.Mapping;
+    using JobPlatform.Web.ViewModels.Companies;
     using Microsoft.AspNetCore.Identity;
 
     public class CompanyService : ICompanyService

@@ -71,6 +71,26 @@
             [DataType(DataType.Date)]
             [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
             public DateTime? Birthdate { get; set; }
+
+            [Required]
+            [MaxLength(50)]
+            public string City { get; set; }
+
+            [Required]
+            [MaxLength(50)]
+            public string Region { get; set; }
+
+            [Required]
+            [MaxLength(50)]
+            public string Country { get; set; }
+
+            [Required]
+            [MaxLength(50)]
+            public string PostCode { get; set; }
+
+            [Required]
+            [MaxLength(500)]
+            public string StreetAddress { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -151,6 +171,19 @@
             user.FirstName = this.Input.FirstName;
             user.MiddleName = this.Input.MiddleName;
             user.FamilyName = this.Input.FamilyName;
+            if (user.Address == null)
+            {
+               user.Address = new Address(this.Input.City, this.Input.Region, this.Input.PostCode, this.Input.StreetAddress, this.Input.Country);
+            }
+            else
+            {
+                user.Address.Country = this.Input.Country;
+                user.Address.City = this.Input.City;
+                user.Address.PostCode = this.Input.PostCode;
+                user.Address.Region = this.Input.Region;
+                user.Address.StreetAddress = this.Input.StreetAddress;
+            }
+
             if (this.Input.Birthdate != null)
             {
                 DateTime res;
@@ -186,6 +219,11 @@
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 FamilyName = user.FamilyName,
+                Country = user.Address.Country,
+                StreetAddress = user.Address.StreetAddress,
+                City = user.Address.City,
+                PostCode = user.Address.PostCode,
+                Region = user.Address.Region,
             };
         }
     }

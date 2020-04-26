@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JobPlatform.Common;
-using JobPlatform.Data.Models;
-using JobPlatform.Data.Models.Enums;
-using JobPlatform.Services.Data.Interfaces;
-using JobPlatform.Web.Controllers;
-using JobPlatform.Web.ViewModels.Jobs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using JobPlatform.Web.ViewModels.Companies;
 
 namespace JobPlatform.Web.Areas.Employer.Controllers
 {
+    using System.Threading.Tasks;
+
+    using JobPlatform.Common;
+    using JobPlatform.Data.Models;
+    using JobPlatform.Services.Data.Interfaces;
+    using JobPlatform.Web.Controllers;
+    using JobPlatform.Web.ViewModels.Jobs;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize(Roles = GlobalConstants.Employer)]
     [Area("Employer")]
     public class JobsController : BaseController
@@ -32,9 +31,20 @@ namespace JobPlatform.Web.Areas.Employer.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
-            var viewModel = this.jobService.GetAllJobs<JobSimpleViewModel>();
+            var user = this.userManager.GetUserId(this.User);
+            CompanyByIdViewModel viewModel = null;
+            if (id == null)
+            {
+                id = this.companyService.CompanyByUserId(user.ToString()).UserId;
+                viewModel = this.companyService.CompanyByUserId<CompanyByIdViewModel>(id);
+            }
+            else
+            {
+                viewModel = this.companyService.CompanyById<CompanyByIdViewModel>(id);
+            }
+
             return this.View(viewModel);
         }
 

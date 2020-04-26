@@ -23,7 +23,7 @@ namespace JobPlatform.Web.Areas.Administration.Controllers
             this.userService = userService;
         }
 
-        public async Task<IActionResult> UsersAsync()
+        public async Task<IActionResult> Users()
         {
             var viewModel = new UsersViewModel
             {
@@ -52,10 +52,5 @@ namespace JobPlatform.Web.Areas.Administration.Controllers
             return this.View(viewModel);
         }
 
-        [HttpPost]
-        public IActionResult Search()
-        {
-            return this.View();
-        }
     }
 }
