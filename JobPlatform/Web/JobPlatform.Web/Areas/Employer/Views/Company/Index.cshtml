@@ -1,6 +1,8 @@
 ﻿@model JobPlatform.Web.ViewModels.Companies.CompanySimpleViewModel
-
-<h4>Company</h4>
+@{
+    this.ViewData["Title"] = "Companies";
+}
+<h4>@this.ViewData["Title"]</h4>
 <hr />
 @if (@Model != null)
 {
@@ -14,7 +16,7 @@
             <div class="position-relative col-md-10">
                 <h5 class="mt-0">@Model.CompanyName</h5>
                 <p>@Model.ShortCompanyDescription</p>
-                <a asp-area="Employer" asp-action="Details" asp-route-id="@Model.Id">See details</a>|
+                <a asp-area="Employer" asp-action="Details" asp-route-id="@Model.Id">See details</a> |
                 <a asp-area="Employer" asp-controller="Jobs" asp-action="Index" asp-route-id="@Model.Id">See All Jobs</a>
             </div>
         </div>
@@ -23,15 +25,15 @@
         <hr \>
         <form asp-action="EditCompany" method="get" style="display: inline-block">
             <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" id="edit" value="Edit" class="btn btn-info" />|
+            <input type="submit" id="edit" value="Edit" class="btn btn-info" /> |
         </form>
         <form asp-action="Details" style="display: inline-block">
             <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" id="details" value="Details" class="btn btn-info" />|
+            <input type="submit" id="details" value="Details" class="btn btn-info" /> |
         </form>
         <form asp-action="Delete" style="display: inline-block">
-            <input type="hidden" asp-for="@Model.Id"/>
-            <input type="submit" id="delete" value="Delete" class="btn btn-danger"/>
+            <input type="hidden" asp-for="@Model.Id" />
+            <input type="submit" id="delete" value="Delete" class="btn btn-danger" />
         </form>
     </div>
 }

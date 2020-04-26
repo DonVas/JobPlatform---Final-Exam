@@ -1,4 +1,6 @@
-﻿using Ganss.XSS;
+﻿using System.Net;
+using System.Text.RegularExpressions;
+using Ganss.XSS;
 
 namespace JobPlatform.Web.ViewModels.Jobs
 {
@@ -21,7 +23,14 @@ namespace JobPlatform.Web.ViewModels.Jobs
 
         public string Description { get; set; }
 
-        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Description);
+        public string SanitizedContent
+        {
+            get
+            {
+               var text = new HtmlSanitizer().Sanitize(this.Description);
+               return WebUtility.HtmlDecode(Regex.Replace(text, @"<[^>]+>", string.Empty));
+            }
+        }
 
         public string CompanyId { get; set; }
 

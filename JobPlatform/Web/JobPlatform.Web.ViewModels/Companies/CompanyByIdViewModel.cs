@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using JobPlatform.Web.ViewModels.Jobs;
-
-namespace JobPlatform.Web.ViewModels.Companies
+﻿namespace JobPlatform.Web.ViewModels.Companies
 {
+    using System.Collections.Generic;
+
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Mapping;
+    using JobPlatform.Web.ViewModels.Jobs;
 
     public class CompanyByIdViewModel : IMapFrom<Company>
     {

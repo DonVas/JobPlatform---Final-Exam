@@ -1,5 +1,7 @@
 ﻿@model JobPlatform.Web.ViewModels.Companies.CompanyByIdViewModel
-
+@{
+    this.ViewData["Title"] = "Jobs";
+}
 @if (!Model.Jobs.Any())
 {
     <a class="btn btn-info" asp-action="AddJob">Create New</a>
@@ -45,9 +47,9 @@ else
                                     <p>@job.SanitizedContent</p>
                                 </td>
                                 <td>
-                                    <a asp-action="EditJob" asp-route-id="@job.Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@job.Id">Details</a> |
-                                    <a asp-action="DeleteJob" asp-route-id="@job.Id">Delete</a>
+                                    <a class="btn btn-info" asp-action="EditJob" asp-route-id="@job.Id">Edit</a> |
+                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@job.Id">Details</a> |
+                                    <a class="btn btn-danger" asp-action="DeleteJob" asp-route-id="@job.Id">Delete</a>
                                 </td>
                             </tr>
                         }
@@ -56,13 +58,4 @@ else
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    <script type="text/javascript" charset="utf8" src="~/js/jquery.dataTables.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#userTable').DataTable();
-        });
-    </script>
 }

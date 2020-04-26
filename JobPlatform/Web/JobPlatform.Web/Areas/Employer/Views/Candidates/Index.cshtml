@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<JobPlatform.Web.ViewModels.Candidates.CandidateSimpleViewModel>
+@{
+    this.ViewData["Title"] = "Candidates";
+}
 @if (@Model != null)
 {
     <table class="table">
@@ -37,7 +40,7 @@
                         @Html.DisplayFor(modelItem => item.ShortSanitizeMotivationLetter)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.User.Id">Details</a> |
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.User.Id">Details</a>
                     </td>
                 </tr>
             }

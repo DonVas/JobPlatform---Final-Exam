@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.ViewModels.Jobs
+﻿using Ganss.XSS;
+
+namespace JobPlatform.Web.ViewModels.Jobs
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -29,5 +31,6 @@
         [Required]
         [StringLength(100000)]
         public string Description { get; set; }
+
     }
 }

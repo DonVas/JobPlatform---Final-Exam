@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobSimpleViewModel>
-
-@if (!Model.Any())
+@{
+    this.ViewData["Title"] = "Jobs";
+}
+@if (Model.Any())
 {
     <div class="card shadow col-12">
         <div class="card-body">
@@ -41,8 +43,8 @@
                                     <p>@job.SanitizedContent</p>
                                 </td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@job.Id">Details</a> |
-                                    <a asp-action="ApplyToJob" asp-route-id="@job.Id">Apply To Job</a>
+                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@job.Id">Details</a> |
+                                    <a class="btn btn-info" asp-action="ApplyToJob" asp-route-id="@job.Id">Apply Now</a>
                                 </td>
                             </tr>
                         }
@@ -53,11 +55,3 @@
     </div>
 }
 
-@section Scripts {
-    <script type="text/javascript" charset="utf8" src="~/js/jquery.dataTables.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#userTable').DataTable();
-        });
-    </script>
-}

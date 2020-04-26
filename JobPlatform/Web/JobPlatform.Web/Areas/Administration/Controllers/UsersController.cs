@@ -1,15 +1,9 @@
-﻿using JobPlatform.Services.Data.Interfaces;
-
-namespace JobPlatform.Web.Areas.Administration.Controllers
+﻿namespace JobPlatform.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
 
-    using JobPlatform.Services.Data;
-    using JobPlatform.Web.Controllers;
+    using JobPlatform.Services.Data.Interfaces;
     using JobPlatform.Web.ViewModels.Administration.Dashboard;
     using JobPlatform.Web.ViewModels.Administration.Dashboard.Users;
     using Microsoft.AspNetCore.Mvc;

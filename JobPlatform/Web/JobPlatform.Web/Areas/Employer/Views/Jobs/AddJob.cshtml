@@ -1,6 +1,9 @@
 ﻿@using JobPlatform.Data.Models.Enums
 @model JobPlatform.Web.ViewModels.Jobs.AddJobViewModel
 
+@{
+    this.ViewData["Title"] = "Add Job";
+}
 <h4>Job</h4>
 <hr />
 <div class="container">
@@ -19,7 +22,7 @@
             </div>
             <div class="col-8">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" ></textarea>
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="col-6">
@@ -45,18 +48,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-info" asp-action="Index">Back to List</a>
 </div>
-
-<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-    tinymce.init({
-        selector: "textarea",
-        plugins: [
-            "image paste table link code media"
-        ]
-    });
-</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -1,8 +1,5 @@
 ﻿namespace JobPlatform.Web.Areas.Employer.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using JobPlatform.Common;
@@ -11,7 +8,6 @@
     using JobPlatform.Web.Controllers;
     using JobPlatform.Web.ViewModels.Companies;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 

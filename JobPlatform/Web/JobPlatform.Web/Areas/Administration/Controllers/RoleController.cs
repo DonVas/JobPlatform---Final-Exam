@@ -21,8 +21,6 @@ namespace JobPlatform.Web.Areas.Administration.Controllers
             this.rolesService = rolesService;
         }
 
-        // POST /api/role
-        // Request body: {"userId":05213546-e4f8-4632-9ab9-45a4f79123b0,"roleId":632f31bc-0b95-405e-8188-eb0e52e73705, "OnOff":true}
         [Authorize]
         [HttpPost]
         public async Task<ActionResult> Post(RoleViewModel input)
