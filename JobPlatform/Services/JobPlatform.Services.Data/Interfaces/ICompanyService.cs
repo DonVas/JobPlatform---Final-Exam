@@ -20,5 +20,7 @@
         Task<bool> DeleteById(string id);
 
         Company CompanyByUserId(string id);
+
+        string GetCompanyId(string id);
     }
 }

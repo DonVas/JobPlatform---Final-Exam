@@ -2,10 +2,11 @@
 @{
     this.ViewData["Title"] = "Companies";
 }
-<h4>@this.ViewData["Title"]</h4>
-<hr />
+
 @if (@Model != null)
 {
+    <h4>@this.ViewData["Title"]</h4>
+    <hr />
     <div class="container col-12">
         <div class="row shadow-lg mb-2 bg-white rounded">
             <div class="w-auto h-auto rounded float-left card-img col-sm-2">
@@ -39,7 +40,9 @@
 }
 else
 {
-    <a asp-area="Employer" asp-action="CreateCompany">Add Company</a>
+    <h3>There is no Company profile!!!</h3>
+    <h5>Do you want to create new one?</h5>
+    <a class="btn btn-info" asp-area="Employer" asp-action="CreateCompany">Add Company</a>
 }
 
 @section Scripts {

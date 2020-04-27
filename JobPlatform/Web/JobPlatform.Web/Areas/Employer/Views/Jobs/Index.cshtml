@@ -2,8 +2,16 @@
 @{
     this.ViewData["Title"] = "Jobs";
 }
-@if (!Model.Jobs.Any())
+@if (Model == null)
 {
+    <h3>There is no Company profile!!!</h3>
+    <h5>Do you want to create new one?</h5>
+    <a class="btn btn-info" asp-controller="Company" asp-action="CreateCompany">Create New Company</a>
+}
+else if (!Model.Jobs.Any())
+{
+    <h3>There is no Jobs !!!</h3>
+    <h5>Do you want to create new one?</h5>
     <a class="btn btn-info" asp-action="AddJob">Create New</a>
 }
 else

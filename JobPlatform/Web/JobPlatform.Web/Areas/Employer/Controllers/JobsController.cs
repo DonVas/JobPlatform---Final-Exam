@@ -37,7 +37,12 @@ namespace JobPlatform.Web.Areas.Employer.Controllers
             CompanyByIdViewModel viewModel = null;
             if (id == null)
             {
-                id = this.companyService.CompanyByUserId(user.ToString()).UserId;
+                id = this.companyService.CompanyByUserId(user.ToString())?.UserId;
+                if (id == null)
+                {
+                    return this.View();
+                }
+
                 viewModel = this.companyService.CompanyByUserId<CompanyByIdViewModel>(id);
             }
             else

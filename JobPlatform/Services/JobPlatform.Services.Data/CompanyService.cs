@@ -95,6 +95,11 @@
             return this.companyRepository.All().FirstOrDefault(x => x.UserId == id);
         }
 
+        public string GetCompanyId(string id)
+        {
+            return this.companyRepository.All().Where(x => x.UserId == id)?.FirstOrDefault()?.Id;
+        }
+
         public async Task<bool> DeleteById(string id)
         {
             var company = this.companyRepository.All().FirstOrDefault(x => x.Id == id);

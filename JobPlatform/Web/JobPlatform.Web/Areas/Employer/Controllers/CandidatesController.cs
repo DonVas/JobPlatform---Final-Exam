@@ -1,4 +1,10 @@
-﻿namespace JobPlatform.Web.Areas.Employer.Controllers
+﻿using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using JobPlatform.Data.Models;
+using Microsoft.AspNetCore.Identity;
+
+namespace JobPlatform.Web.Areas.Employer.Controllers
 {
     using JobPlatform.Common;
     using JobPlatform.Services.Data.Interfaces;
@@ -12,15 +18,25 @@
     public class CandidatesController : BaseController
     {
         private readonly ICandidateService candidateService;
+        private readonly ICompanyService companyService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public CandidatesController(ICandidateService candidateService)
+        public CandidatesController(
+            ICandidateService candidateService,
+            ICompanyService companyService,
+            UserManager<ApplicationUser> userManager)
         {
             this.candidateService = candidateService;
+            this.companyService = companyService;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var viewModel = this.candidateService.GetAllCandidates<CandidateSimpleViewModel>();
+            var user = await this.userManager.GetUserAsync(this.User);
+            var companyId = this.companyService.CompanyByUserId(user.Id.ToString());
+            var viewModel = this.candidateService
+                .GetAllCandidatesByCompanyId<CandidateSimpleViewModel>(companyId.Id);
             return this.View(viewModel);
         }
 

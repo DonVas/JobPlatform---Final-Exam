@@ -37,6 +37,10 @@
             return this.candidateRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
         }
 
+        public IEnumerable<T> GetAllCandidatesByCompanyId<T>(string id)
+        {
+            return this.candidateRepository.All().Where(x => x.Jobs.Any()).To<T>().ToList();
+        }
 
         public IEnumerable<T> GetAllCandidates<T>()
         {

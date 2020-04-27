@@ -9,6 +9,8 @@
 
         IEnumerable<T> GetAllCandidates<T>();
 
+        IEnumerable<T> GetAllCandidatesByCompanyId<T>(string id);
+
         T GetCandidateByUserId<T>(string id);
 
         T GetCandidateById<T>(string id);
