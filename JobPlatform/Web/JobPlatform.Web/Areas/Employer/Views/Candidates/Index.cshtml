@@ -4,7 +4,7 @@
 }
 @if (@Model != null)
 {
-    <table class="table">
+    <table class="table" id="userTable">
         <thead>
             <tr>
                 <th>
@@ -26,7 +26,7 @@
                     <td>
                         @if (item.User.ProfilePicture != null)
                         {
-                            <img class="preview-img" src="@item.User.ProfilePicture" alt="Preview Image" width="100" height="100" />
+                            <img class="preview-img" src="@item.User.ProfilePicture" alt="Preview Image" width="80" height="80" />
                         }
                         else
                         {
@@ -50,4 +50,13 @@
 else
 {
     <h3>There is no Candidates</h3>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
 }

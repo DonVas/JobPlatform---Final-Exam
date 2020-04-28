@@ -35,6 +35,11 @@ namespace JobPlatform.Web.Areas.Employer.Controllers
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var companyId = this.companyService.CompanyByUserId(user.Id.ToString());
+            if (companyId == null)
+            {
+                return this.View();
+            }
+
             var viewModel = this.candidateService
                 .GetAllCandidatesByCompanyId<CandidateSimpleViewModel>(companyId.Id);
             return this.View(viewModel);

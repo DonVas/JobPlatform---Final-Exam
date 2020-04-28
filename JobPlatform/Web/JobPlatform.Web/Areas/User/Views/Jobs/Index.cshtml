@@ -2,6 +2,8 @@
 @{
     this.ViewData["Title"] = "Jobs";
 }
+<h3>@this.ViewData["Title"]</h3>   
+<hr/>
 @if (Model.Any())
 {
     <div class="card shadow col-12">
@@ -53,5 +55,17 @@
             </div>
         </div>
     </div>
+}
+else
+{
+    <h3>There is no Jobs added yet !!!</h3>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
 }
 

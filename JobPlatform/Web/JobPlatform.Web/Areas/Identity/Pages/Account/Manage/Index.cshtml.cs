@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.Areas.Identity.Pages.Account.Manage
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace JobPlatform.Web.Areas.Identity.Pages.Account.Manage
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -115,7 +117,7 @@
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            if (!this.ModelState.IsValid)
+            if (this.ModelState["PictureFile"].ValidationState == ModelValidationState.Invalid)
             {
                 await this.LoadAsync(user);
                 return this.Page();
@@ -186,9 +188,9 @@
 
             if (this.Input.Birthdate != null)
             {
-                DateTime res;
-                DateTime.TryParse(this.Input.Birthdate.ToString(), out res);
-                user.Birthdate = res;
+                DateTime resultDate = default;
+                DateTime.TryParse(this.Input.Birthdate.ToString(), out resultDate);
+                user.Birthdate = resultDate;
             }
 
             var result = await this.userManager.UpdateAsync(user);
@@ -219,12 +221,16 @@
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 FamilyName = user.FamilyName,
-                Country = user.Address.Country,
-                StreetAddress = user.Address.StreetAddress,
-                City = user.Address.City,
-                PostCode = user.Address.PostCode,
-                Region = user.Address.Region,
             };
+
+            if (user.Address != null)
+            {
+                this.Input.Country = user.Address.Country;
+                this.Input.StreetAddress = user.Address.StreetAddress;
+                this.Input.City = user.Address.City;
+                this.Input.PostCode = user.Address.PostCode;
+                this.Input.Region = user.Address.Region;
+            }
         }
     }
 }

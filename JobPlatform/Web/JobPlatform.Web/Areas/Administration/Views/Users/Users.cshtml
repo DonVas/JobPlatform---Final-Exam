@@ -31,7 +31,7 @@
                             @foreach (var roleId in Model.Roles)
                             {
                                 @if (user.RolesName.FirstOrDefault(x => x
-                           == roleId.Name) != null)
+                                                                       == roleId.Name) != null)
                                 {
                                     <td>
                                         <a href="#" style="color: green" onclick="changeRole('@user.Id', '@roleId.Id', false),reresh()">
@@ -59,3 +59,11 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
+}

@@ -28,7 +28,10 @@ namespace JobPlatform.Web.ViewModels.Jobs
             get
             {
                var text = new HtmlSanitizer().Sanitize(this.Description);
-               return WebUtility.HtmlDecode(Regex.Replace(text, @"<[^>]+>", string.Empty));
+               text = WebUtility.HtmlDecode(Regex.Replace(text, @"<[^>]+>", string.Empty));
+               return text.Length > 200
+                   ? text.Substring(0, 200) + "..."
+                   : text;
             }
         }
 

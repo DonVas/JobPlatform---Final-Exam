@@ -90,7 +90,7 @@
                 };
 
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
-                var resultRole = await this.userManager.AddToRoleAsync(user, defautRole);
+                await this.userManager.AddToRoleAsync(user, defautRole);
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");

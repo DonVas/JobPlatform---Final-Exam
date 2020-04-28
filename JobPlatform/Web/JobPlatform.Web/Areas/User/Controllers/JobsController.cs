@@ -67,5 +67,18 @@ namespace JobPlatform.Web.Areas.User.Controllers
 
             return this.RedirectToAction("Index");
         }
+
+        public IActionResult MyApplications()
+        {
+            var userId = this.userManager.GetUserId(this.User);
+            var viewModel = this.jobService
+                .GetAllJobs<MyApplicationViewModel>()
+                .Where(x =>
+                    x.Candidates
+                        .FirstOrDefault(c =>
+                            c.CandidateId == userId) != null);
+
+            return this.View(viewModel);
+        }
     }
 }

@@ -22,15 +22,15 @@
 
         public async Task SeedUserAsync(UserManager<ApplicationUser> userManager, string roleName)
         {
-            var user = await userManager.FindByNameAsync("bulaf88@abv.bg");
+            var user = await userManager.FindByNameAsync("Admin88@abv.bg");
 
             if (user == null)
             {
                 var result = await userManager.CreateAsync(
                     new ApplicationUser()
                 {
-                    UserName = "bulaf88@abv.bg",
-                    Email = "bulaf88@abv.bg",
+                    UserName = "Admin@abv.bg",
+                    Email = "admin@abv.bg",
                 },
                     "123456");
                 if (!result.Succeeded)
@@ -38,7 +38,9 @@
                     throw new Exception(string.Join(Environment.NewLine, result.Errors.Select(e => e.Description)));
                 }
 
-                user = await userManager.FindByNameAsync("bulaf88@abv.bg");
+                user = await userManager.FindByNameAsync("Admin@abv.bg");
+                user.Address = new Address("Sofia", "Sofia", "1000", "Mladost 1", "Bulgaria");
+                await userManager.UpdateAsync(user);
                 await userManager.AddToRoleAsync(user, roleName);
             }
         }
