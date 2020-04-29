@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobPlatform.Web.ViewModels.Candidates.CandidateSimpleViewModel>
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.MyCandidatesViewModel>
 @{
     this.ViewData["Title"] = "Candidates";
 }
@@ -8,25 +8,33 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.User.ProfilePicture)
+                    @Html.DisplayNameFor(model => model.JobTitle)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cv)
+                    Profile Picture
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MotivationLetter)
+                    CV
+                </th>
+                <th>
+                    Motivation Letter
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in @Model)
             {
-                <tr>
+            <tr>
+                <td>
+                    @item.JobTitle
+                </td>
+                @foreach (var candidate in item.Candidates)
+                {
                     <td>
-                        @if (item.User.ProfilePicture != null)
+                        @if (candidate.Candidate.User.ProfilePicture != null)
                         {
-                            <img class="preview-img" src="@item.User.ProfilePicture" alt="Preview Image" width="80" height="80" />
+                            <img class="preview-img" src="@candidate.Candidate.User.ProfilePicture" alt="Preview Image" width="80" height="80" />
                         }
                         else
                         {
@@ -34,15 +42,20 @@
                         }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ShortSanitizeCv)
+                        @candidate.
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ShortSanitizeMotivationLetter)
+                        @candidate.Candidate.Cv
                     </td>
                     <td>
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.User.Id">Details</a>
+                        @candidate.Candidate.MotivationLetter
                     </td>
-                </tr>
+                    <td>
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@candidate.Candidate.User.Id">Details</a>
+                    </td>
+
+                }
+            </tr>
             }
         </tbody>
     </table>

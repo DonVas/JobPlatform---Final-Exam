@@ -39,7 +39,7 @@
 
         public IEnumerable<T> GetAllCandidatesByCompanyId<T>(string id)
         {
-            return this.candidateRepository.All().Where(x => x.Jobs.Any()).To<T>().ToList();
+            return this.candidateRepository.All().Where(x => x.Jobs.Where(x => x.Job.CompanyId == id) != null).To<T>().ToList();
         }
 
         public IEnumerable<T> GetAllCandidates<T>()

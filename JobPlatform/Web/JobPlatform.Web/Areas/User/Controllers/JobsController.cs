@@ -61,9 +61,9 @@ namespace JobPlatform.Web.Areas.User.Controllers
         }
 
         [HttpPost]
-        public IActionResult ApplyToJob(CandidateApplyInputModel input)
+        public async Task<IActionResult> ApplyToJobAsync(CandidateApplyInputModel input)
         {
-            var viewModel = this.jobService.AddCandidate(input.JobId, input.UserId, input.Cv, input.MotivationLetter);
+            var viewModel = await this.jobService.AddCandidate(input.JobId, input.UserId, input.Cv, input.MotivationLetter);
 
             return this.RedirectToAction("Index");
         }

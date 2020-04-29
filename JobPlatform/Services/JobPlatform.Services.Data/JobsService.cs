@@ -16,20 +16,17 @@
         private readonly IDeletableEntityRepository<Job> jobRepository;
         private readonly IDeletableEntityRepository<Company> companyRepository;
         private readonly IDeletableEntityRepository<Candidate> candidateRepository;
-        private readonly IRepository<JobCandidate> jobCRepository;
         private readonly ICandidateService candidateService;
 
         public JobsService(
             IDeletableEntityRepository<Job> jobRepository,
             IDeletableEntityRepository<Company> companyRepository,
             IDeletableEntityRepository<Candidate> candidateRepository,
-            IRepository<JobCandidate> jobCRepository,
             ICandidateService candidateService)
         {
             this.jobRepository = jobRepository;
             this.companyRepository = companyRepository;
             this.candidateRepository = candidateRepository;
-            this.jobCRepository = jobCRepository;
             this.candidateService = candidateService;
         }
 
@@ -67,6 +64,11 @@
         public IEnumerable<T> GetAllJobs<T>()
         {
             return this.jobRepository.All().To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllJobsByCompanyId<T>(string id)
+        {
+            return this.jobRepository.All().Where(x => x.CompanyId == id).To<T>().ToList();
         }
 
         public async Task<bool> DeleteJobById(string id)
@@ -128,11 +130,8 @@
                     JobId = job.Id,
                 };
 
-                await this.jobCRepository.AddAsync(jobCandidate);
                 job.Candidates.Add(jobCandidate);
-                this.jobRepository.Update(job);
-                //await this.jobRepository.SaveChangesAsync();
-                await this.jobCRepository.SaveChangesAsync();
+                await this.jobRepository.SaveChangesAsync();
 
                 return true;
             }

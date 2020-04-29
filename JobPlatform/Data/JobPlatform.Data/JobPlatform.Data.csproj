@@ -33,6 +33,10 @@
     <Compile Remove="Migrations\20200423143336_AddUserToCompany.Designer.cs" />
     <Compile Remove="Migrations\20200423143957_AddUserToCompany.cs" />
     <Compile Remove="Migrations\20200423143957_AddUserToCompany.Designer.cs" />
+    <Compile Remove="Migrations\20200429164023_Fixing.cs" />
+    <Compile Remove="Migrations\20200429164023_Fixing.Designer.cs" />
+    <Compile Remove="Migrations\20200429172422_test.cs" />
+    <Compile Remove="Migrations\20200429172422_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

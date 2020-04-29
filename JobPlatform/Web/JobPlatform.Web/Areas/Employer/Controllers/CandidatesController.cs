@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JobPlatform.Data.Models;
+using JobPlatform.Web.ViewModels.Jobs;
 using Microsoft.AspNetCore.Identity;
 
 namespace JobPlatform.Web.Areas.Employer.Controllers
@@ -20,15 +21,18 @@ namespace JobPlatform.Web.Areas.Employer.Controllers
         private readonly ICandidateService candidateService;
         private readonly ICompanyService companyService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IJobService jobService;
 
         public CandidatesController(
             ICandidateService candidateService,
             ICompanyService companyService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IJobService jobService)
         {
             this.candidateService = candidateService;
             this.companyService = companyService;
             this.userManager = userManager;
+            this.jobService = jobService;
         }
 
         public async Task<IActionResult> Index()
@@ -40,8 +44,9 @@ namespace JobPlatform.Web.Areas.Employer.Controllers
                 return this.View();
             }
 
-            var viewModel = this.candidateService
-                .GetAllCandidatesByCompanyId<CandidateSimpleViewModel>(companyId.Id);
+            var viewModel = this.jobService
+                    .GetAllJobsByCompanyId<MyCandidatesViewModel>(companyId.Id);
+
             return this.View(viewModel);
         }
 

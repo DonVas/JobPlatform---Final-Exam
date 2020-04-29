@@ -83,12 +83,12 @@
             builder.Entity<JobCandidate>().HasKey(sc => new { sc.JobId, sc.CandidateId });
 
             builder.Entity<JobCandidate>()
-                .HasOne<Candidate>(sc => sc.Candidate)
+                .HasOne(sc => sc.Candidate)
                 .WithMany(s => s.Jobs)
                 .HasForeignKey(sc => sc.CandidateId);
 
             builder.Entity<JobCandidate>()
-                .HasOne<Job>(sc => sc.Job)
+                .HasOne(sc => sc.Job)
                 .WithMany(s => s.Candidates)
                 .HasForeignKey(sc => sc.JobId);
 

@@ -29,12 +29,6 @@ namespace JobPlatform.Web.ViewModels.Companies
 
         public string LogoPicture { get; set; }
 
-        public string UserId { get; set; }
-
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
-
         public virtual ICollection<Job> Jobs { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
