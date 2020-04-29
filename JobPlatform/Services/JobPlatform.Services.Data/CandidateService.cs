@@ -24,7 +24,7 @@
 
             await this.candidateRepository.AddAsync(candidate);
             await this.candidateRepository.SaveChangesAsync();
-            return candidate.UserId;
+            return candidate.Id;
         }
 
         public T GetCandidateByUserId<T>(string id)

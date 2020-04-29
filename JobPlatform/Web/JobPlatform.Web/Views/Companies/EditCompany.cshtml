@@ -1,93 +1,66 @@
-﻿@model JobPlatform.Data.Models.Company
-
+﻿@model JobPlatform.Web.ViewModels.Companies.CompanyEditViewModel
 @{
-    Layout = null;
+    this.ViewData["Title"] = "Edit company";
+    var url = Model?.LogoPicture;
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>EditCompany</title>
-</head>
-<body>
-
-<h4>Company</h4>
+<h1>@this.ViewData["Title"]</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditCompany">
+    <div class="col-12">
+        <form asp-action="EditCompany" class="col" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CompanyName" class="control-label"></label>
-                <input asp-for="CompanyName" class="form-control" />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            <div class="preview text-left col-4 btn-file">
+                @if (@url != null)
+                {
+                    <img id='img-upload' class="img-fluid img-thumbnail" src="@url" alt="Preview Image" width="300" height="300" />
+                }
+                else
+                {
+                    <img id='img-upload' class="img-fluid img-thumbnail" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200" />
+                }
+                <input id="imgInp" class="col card-text" type="file" asp-for="PictureFile">
+                <span asp-validation-for="PictureFile" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CompanyDescription" class="control-label"></label>
-                <input asp-for="CompanyDescription" class="form-control" />
-                <span asp-validation-for="CompanyDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompanyWebsite" class="control-label"></label>
-                <input asp-for="CompanyWebsite" class="form-control" />
-                <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FacebookWebsite" class="control-label"></label>
-                <input asp-for="FacebookWebsite" class="form-control" />
-                <span asp-validation-for="FacebookWebsite" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TwitterWebsite" class="control-label"></label>
-                <input asp-for="TwitterWebsite" class="form-control" />
-                <span asp-validation-for="TwitterWebsite" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LinkedInWebsite" class="control-label"></label>
-                <input asp-for="LinkedInWebsite" class="form-control" />
-                <span asp-validation-for="LinkedInWebsite" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LogoPicture" class="control-label"></label>
-                <input asp-for="LogoPicture" class="form-control" />
-                <span asp-validation-for="LogoPicture" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedOn" class="control-label"></label>
-                <input asp-for="DeletedOn" class="form-control" />
-                <span asp-validation-for="DeletedOn" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedOn" class="control-label"></label>
-                <input asp-for="ModifiedOn" class="form-control" />
-                <span asp-validation-for="ModifiedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="col">
+                <div class="col">
+                    <label asp-for="CompanyName" class="control-label"></label>
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="CompanyDescription" class="control-label"></label>
+                    <textarea asp-for="CompanyDescription" class="form-control"></textarea>
+                    <span asp-validation-for="CompanyDescription" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="CompanyWebsite" class="control-label"></label>
+                    <input asp-for="CompanyWebsite" class="form-control" />
+                    <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="FacebookWebsite" class="control-label"></label>
+                    <input asp-for="FacebookWebsite" class="form-control" />
+                    <span asp-validation-for="FacebookWebsite" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="TwitterWebsite" class="control-label"></label>
+                    <input asp-for="TwitterWebsite" class="form-control" />
+                    <span asp-validation-for="TwitterWebsite" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="LinkedInWebsite" class="control-label"></label>
+                    <input asp-for="LinkedInWebsite" class="form-control" />
+                    <span asp-validation-for="LinkedInWebsite" class="text-danger"></span>
+                </div>
+                <hr />
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="submit" id="edit" value="Save" class="btn btn-danger" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }
-</body>
-</html>

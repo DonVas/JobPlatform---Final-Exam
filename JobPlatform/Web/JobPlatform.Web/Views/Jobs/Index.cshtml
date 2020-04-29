@@ -1,47 +1,71 @@
-﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobSimpleViewModel >
+﻿@model IEnumerable<JobPlatform.Web.ViewModels.Jobs.JobSimpleViewModel>
 @{
     this.ViewData["Title"] = "Jobs";
 }
-<h1>@this.ViewData["Title"]</h1>
-<hr />
-@*@if (Model != null)
+@if (Model == null)
 {
-
-
-@foreach (var item in Model)
-{
-    <div class="container"> 
-    <div class="row shadow-lg mb-2 bg-white rounded">
-        <div class="w-auto h-auto rounded float-left card-img col-sm-2">
-            <a asp-action="Company" asp-route-id="@item.CompanyId">
-                <img src="@item.CompanyLogoPicture" alt="@item.CompanyEmail" class="fit-image">
-            </a>
-        </div>
-        <div class="position-relative col-md-10">
-            <h5 class="mt-0">@item.JobTitle</h5>
-            <h5 class="mt-0">@item.JobType</h5>
-            <h5 class="mt-0">@item.JobCategory</h5>
-            <p>@item.Description</p>
-            <a asp-action="Company" asp-route-id="@item.Id">See details</a>
-        </div>
-    </div>
-    </div>
-}
+    <h3>There is no Jobs added to your company profile !!!</h3>
+    <hr />
 }
 else
 {
-<div>
-    <h3 class="mt-0">No Job for Presenting</h3>
-</div>*@
+    <hr />
+    <div class="card shadow col-12">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="userTable" width="98%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>JobTitle</th>
+                            <th>JobCategory</th>
+                            <th>LocationCity</th>
+                            <th>JobType</th>
+                            <th>CompanyEmail</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var job in Model)
+                        {
+                            <tr id="@job.Id">
 
+                                <td>
+                                    <p>@job.JobTitle</p>
+                                </td>
+                                <td>
+                                    <p>@job.JobCategory</p>
+                                </td>
+                                <td>
+                                    <p>@job.LocationCity</p>
+                                </td>
+                                <td>
+                                    <p>@job.JobType</p>
+                                </td>
+                                <td>
+                                    <p>@job.CompanyEmail</p>
+                                </td>
+                                <td>
+                                    <p>@job.SanitizedContent</p>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" asp-action="EditJob" asp-route-id="@job.Id">Edit</a> |
+                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@job.Id">Details</a> |
+                                    <a class="btn btn-danger" asp-action="DeleteJob" asp-route-id="@job.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
-
 @section Scripts {
-    <style>
-        .fit-image {
-            width: 60%;
-            object-fit: cover;
-            height: 100px; /* only if you want fixed height */
-        }
-    </style>
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
 }

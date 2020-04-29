@@ -102,8 +102,8 @@ namespace JobPlatform.Web
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRolesService, RolesService>();
-            services.AddTransient<ICompanyService, CompanyService>();
-            services.AddTransient<IJobService, JobService>();
+            services.AddTransient<ICompanyService, CompaniesService>();
+            services.AddTransient<IJobService, JobsService>();
             services.AddTransient<ICandidateService, CandidateService>();
 
         }

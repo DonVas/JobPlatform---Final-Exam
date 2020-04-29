@@ -2,22 +2,71 @@
 @{
     this.ViewData["Title"] = "Companies";
 }
-<h1>@this.ViewData["Title"]</h1>
-<hr />
-@foreach (var item in Model)
+
+@if (@Model != null)
 {
-    <div class="container"> 
-    <div class="row shadow-lg mb-2 bg-white rounded">
-        <div class="w-auto h-auto rounded float-left card-img col-sm-2">
-            <a asp-action="Company" asp-route-id="@item.Id">
-                <img src="@item.LogoPicture" alt="@item.CompanyName" class="fit-image">
-            </a>
-        </div>
-        <div class="position-relative col-md-10">
-            <h5 class="mt-0">@item.CompanyName</h5>
-            <p>@item.ShortCompanyDescription</p>
-            <a asp-action="Company" asp-route-id="@item.Id">See details</a>
+    <h4>@this.ViewData["Title"]</h4>
+    <hr />
+    <div class="card shadow col-12">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="userTable" width="98%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var idem in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="container col-12">
+                                        <div class="row shadow-lg mb-2 bg-white rounded">
+                                            <div class="w-auto h-auto rounded float-left card-img col-sm-2">
+                                                <a asp-action="Details" asp-route-id="@idem.Id">
+                                                    <img src="@idem.LogoPicture" alt="@idem.CompanyName" class="fit-image">
+                                                </a>
+                                            </div>
+                                            <div class="position-relative col-md-10">
+                                                <h5 class="mt-0">@idem.CompanyName</h5>
+                                                <p>@idem.ShortCompanyDescription</p>
+                                                <a asp-action="Details" asp-route-id="@idem.Id">See details</a> |
+                                                <a asp-controller="Jobs" asp-action="Index" asp-route-id="@idem.Id">See All Jobs</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <form asp-action="EditCompany" asp-route-id="@idem.Id" method="get" style="display: inline-block">
+                                            <input type="submit" id="edit" value="Edit" class="btn btn-info" /> |
+                                        </form>
+                                        <form asp-action="Details" asp-route-id="@idem.Id" method="get" style="display: inline-block">
+                                            <input type="submit" id="details" value="Details" class="btn btn-info" /> |
+                                        </form>
+                                        <form asp-action="Delete" asp-route-id="@idem.Id" method="get" style="display: inline-block">
+                                            <input type="submit" id="delete" value="Delete" class="btn btn-danger" />
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    </div>
+}
+else
+{
+    <h3>There is no Company profile!!!</h3>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+    </script>
 }

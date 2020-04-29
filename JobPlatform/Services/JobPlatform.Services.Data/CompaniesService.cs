@@ -11,12 +11,12 @@
     using JobPlatform.Web.ViewModels.Companies;
     using Microsoft.AspNetCore.Identity;
 
-    public class CompanyService : ICompanyService
+    public class CompaniesService : ICompanyService
     {
         private readonly IDeletableEntityRepository<Company> companyRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public CompanyService(
+        public CompaniesService(
             IDeletableEntityRepository<Company> companyRepository,
             UserManager<ApplicationUser> userManager)
         {
@@ -65,19 +65,26 @@
             string logoPicture,
             string id)
         {
-            var company = this.CompanyById<CompanyEditViewModel>(id);
+            var result = this.companyRepository.All().FirstOrDefault(x => x.Id == id);
 
-            company.CompanyName = companyName;
-            company.CompanyDescription = companyDescription;
-            company.CompanyWebsite = companyWebsite;
-            company.FacebookWebsite = facebookWebsite;
-            company.TwitterWebsite = twitterWebsite;
-            company.LinkedInWebsite = linkedInWebsite;
-            company.LogoPicture = logoPicture;
+            if (result != null)
+            {
+                result.CompanyName = companyName;
+                result.CompanyDescription = companyDescription;
+                result.CompanyWebsite = companyWebsite;
+                result.FacebookWebsite = facebookWebsite;
+                result.TwitterWebsite = twitterWebsite;
+                result.LinkedInWebsite = linkedInWebsite;
+                if (logoPicture != null)
+                {
+                    result.LogoPicture = logoPicture;
+                }
 
-            var result = this.companyRepository.All().Where(x => x.Id == id).To<Company>().FirstOrDefault();
-            this.companyRepository.Update(result);
-            return await this.companyRepository.SaveChangesAsync();
+                this.companyRepository.Update(result);
+                return await this.companyRepository.SaveChangesAsync();
+            }
+
+            return 0;
         }
 
         public T CompanyById<T>(string id)

@@ -15,8 +15,8 @@ namespace JobPlatform.Data.Models
         }
 
         public Candidate(string cv, string motivationLetter, string userId)
-            : base()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.Cv = cv;
             this.MotivationLetter = motivationLetter;
             this.UserId = userId;

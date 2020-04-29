@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using JobPlatform.Services.Mapping;
-
-namespace JobPlatform.Services.Data
+﻿namespace JobPlatform.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using JobPlatform.Data.Common.Repositories;
     using JobPlatform.Data.Models;
     using JobPlatform.Data.Models.Enums;
     using JobPlatform.Services.Data.Interfaces;
+    using JobPlatform.Services.Mapping;
 
-    public class JobService : IJobService
+    public class JobsService : IJobService
     {
         private readonly IDeletableEntityRepository<Job> jobRepository;
         private readonly IDeletableEntityRepository<Company> companyRepository;
@@ -20,7 +19,7 @@ namespace JobPlatform.Services.Data
         private readonly IRepository<JobCandidate> jobCRepository;
         private readonly ICandidateService candidateService;
 
-        public JobService(
+        public JobsService(
             IDeletableEntityRepository<Job> jobRepository,
             IDeletableEntityRepository<Company> companyRepository,
             IDeletableEntityRepository<Candidate> candidateRepository,
@@ -119,15 +118,22 @@ namespace JobPlatform.Services.Data
         public async Task<bool> AddCandidate(string jobId, string userId, string cv, string motivationLetter)
         {
             var job = this.jobRepository.All().FirstOrDefault(x => x.Id == jobId);
-            var candidateId = await this.candidateService.AddCandidate(cv, motivationLetter, userId);
+            var candidateId = this.candidateService.AddCandidate(cv, motivationLetter, userId).Result;
 
             if (job != null && candidateId != null)
             {
-                var jobCandidate = new JobCandidate() { CandidateId = candidateId, JobId = job.Id };
+                var jobCandidate = new JobCandidate()
+                {
+                    CandidateId = candidateId,
+                    JobId = job.Id,
+                };
+
                 await this.jobCRepository.AddAsync(jobCandidate);
                 job.Candidates.Add(jobCandidate);
                 this.jobRepository.Update(job);
+                //await this.jobRepository.SaveChangesAsync();
                 await this.jobCRepository.SaveChangesAsync();
+
                 return true;
             }
 

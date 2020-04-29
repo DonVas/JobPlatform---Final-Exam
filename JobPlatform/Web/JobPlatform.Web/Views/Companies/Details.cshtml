@@ -1,0 +1,58 @@
+﻿@model JobPlatform.Web.ViewModels.Companies.CompanyDetailsViewModel
+@{
+    this.ViewData["Title"] = "Details";
+}
+<div>
+    <h4>Company</h4>
+    <hr />
+    <div class="container">
+        <div class="preview col-md-2 align-left">
+            @if (@Model.LogoPicture != null)
+            {
+                <img id='img-upload' class="img-fluid img-thumbnail" src="@Model.LogoPicture" alt="Preview Image" width="200" height="200" />
+            }
+            else
+            {
+                <img id='img-upload' class="img-fluid img-thumbnail" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200" />
+            }
+        </div>
+        <div class="col-6">
+            <h3>@Model.CompanyName</h3>
+        </div>
+        <div class="col-6">
+            <label asp-for="CompanyName" class="control-label"></label>
+            <input asp-for="CompanyName" class="form-control" />
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+
+        </div>
+        <div class="col-8">
+            <label asp-for="CompanyDescription" class="control-label"></label>
+            <textarea asp-for="SanitizedContent" class="form-control"></textarea>
+            <span asp-validation-for="CompanyDescription" class="text-danger"></span>
+        </div>
+        <div class="col-6">
+            <label asp-for="CompanyWebsite" class="control-label"></label>
+            <input asp-for="CompanyWebsite" class="form-control" />
+            <span asp-validation-for="CompanyWebsite" class="text-danger"></span>
+        </div>
+        <div class="col-6">
+            <label asp-for="FacebookWebsite" class="control-label"></label>
+            <input asp-for="FacebookWebsite" class="form-control" />
+            <span asp-validation-for="FacebookWebsite" class="text-danger"></span>
+        </div>
+        <div class="col-6">
+            <label asp-for="TwitterWebsite" class="control-label"></label>
+            <input asp-for="TwitterWebsite" class="form-control" />
+            <span asp-validation-for="TwitterWebsite" class="text-danger"></span>
+        </div>
+        <div class="col-6">
+            <label asp-for="LinkedInWebsite" class="control-label"></label>
+            <input asp-for="LinkedInWebsite" class="form-control" />
+            <span asp-validation-for="LinkedInWebsite" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div>
+    <a class="btn btn-info" asp-action="EditCompany" asp-route-id="@Model.Id">Edit</a> |
+    <a class="btn btn-info" asp-action="Index">Back to List</a>
+</div>

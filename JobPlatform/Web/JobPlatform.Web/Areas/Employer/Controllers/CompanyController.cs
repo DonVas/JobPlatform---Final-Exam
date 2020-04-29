@@ -29,7 +29,6 @@
                 this.userManager = userManager;
             }
 
-            [HttpGet]
             public async Task<IActionResult> Index()
             {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -127,10 +126,10 @@
                     input?.FacebookWebsite,
                     input?.TwitterWebsite,
                     input?.LinkedInWebsite,
-                    img?.SecureUri.ToString(),
+                    img?.SecureUri?.ToString(),
                     input.Id).Result;
 
-                return this.RedirectToAction("Details");
+                return this.RedirectToAction("Index");
             }
         }
 }

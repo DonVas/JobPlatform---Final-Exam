@@ -7,7 +7,7 @@ namespace JobPlatform.Web.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using JobPlatform.Common;
     using JobPlatform.Data.Models;
     using JobPlatform.Services.Data;
     using JobPlatform.Services.Data.Interfaces;
@@ -16,7 +16,9 @@ namespace JobPlatform.Web.Controllers
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Moderator, Employer")]
+    //[Authorize(Roles = GlobalConstants.Administrator)]
+    //[Authorize(Roles = GlobalConstants.Moderator)]
+
     public class CompaniesController : BaseController
     {
         private readonly IFileService fileService;
@@ -45,6 +47,13 @@ namespace JobPlatform.Web.Controllers
             return this.View(viewModel);
         }
 
+        public IActionResult Details(string id)
+        {
+            var viewModel = this.companyService.CompanyById<CompanyDetailsViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
         [HttpGet]
         public IActionResult Company(string id)
         {
@@ -53,55 +62,52 @@ namespace JobPlatform.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult CreateCompany()
+        public IActionResult Delete(string id)
         {
-            return this.View();
+            var viewModel = this.companyService.CompanyById<CompanySimpleViewModel>(id);
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCompany(CompanyCreateViewModel input)
+        public IActionResult DeleteCompany(string id)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var result = this.companyService.DeleteById(id).Result;
 
+            if (!result)
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
+        public IActionResult EditCompany(string id)
+        {
+            var viewModel = this.companyService.CompanyById<CompanyEditViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCompany(CompanyEditViewModel input)
+        {
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);
             }
 
-            var img = await this.fileService.UploadImageFileAsync(input.PictureFile, user.Id, "CompanyLogo");
-
-            int result = this.companyService.AddCompany(
+            int result = this.companyService.EditCompany(
                 input.CompanyName,
                 input.SanitizedCompanyDescription,
                 input?.CompanyWebsite,
                 input?.FacebookWebsite,
                 input?.TwitterWebsite,
                 input?.LinkedInWebsite,
-                img?.SecureUri.ToString(),
-                user.Id).Result;
+                null,
+                input.Id).Result;
 
-            if (result < 0)
-            {
-                return this.View(input);
-            }
-
-            return this.RedirectToAction("Index");
-        }
-
-        [HttpDelete]
-        public IActionResult DeleteCompany()
-        {
-            var viewModel = new List<CompanySimpleViewModel>();
-
-            return this.View(viewModel);
-        }
-
-        [HttpPatch]
-        public IActionResult EditCompany()
-        {
-            var viewModel = new List<CompanySimpleViewModel>();
-
-            return this.View(viewModel);
+            return this.RedirectToAction("Details");
         }
     }
 }

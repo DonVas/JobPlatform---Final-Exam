@@ -14,7 +14,7 @@
             <a class="nav-link text-dark align-baseline" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 @if (@user?.ProfilePicture != null)
                 {
-                    <img src="@user.ProfilePicture" class="avatar" />
+                    <img src="@user.ProfilePicture" class="avatar" width="30" height="30" />
                 }
                 else
                 {
