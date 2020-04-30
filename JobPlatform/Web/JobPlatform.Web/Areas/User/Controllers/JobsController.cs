@@ -22,15 +22,18 @@ namespace JobPlatform.Web.Areas.User.Controllers
         private readonly IJobService jobService;
         private readonly ICompanyService companyService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICandidateService candidateService;
 
         public JobsController(
             IJobService jobService,
             ICompanyService companyService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ICandidateService candidateService)
         {
             this.jobService = jobService;
             this.companyService = companyService;
             this.userManager = userManager;
+            this.candidateService = candidateService;
         }
 
         public IActionResult Index()

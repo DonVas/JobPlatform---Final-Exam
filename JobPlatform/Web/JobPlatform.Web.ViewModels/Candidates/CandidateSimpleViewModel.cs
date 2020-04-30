@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.ViewModels.Candidates
+﻿using System.Collections.Generic;
+
+namespace JobPlatform.Web.ViewModels.Candidates
 {
     using System.Net;
     using System.Text.RegularExpressions;
@@ -36,6 +38,8 @@
                     : content;
             }
         }
+
+        public virtual ICollection<JobCandidate> Jobs { get; set; }
 
         public virtual ApplicationUser User { get; set; }
     }
