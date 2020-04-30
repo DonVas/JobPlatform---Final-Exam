@@ -7,7 +7,7 @@
     <hr />
     <div class="container">
         <div class="preview col-md-2 align-left">
-            @if (@Model.LogoPicture != null)
+            @if (@Model==null || @Model.LogoPicture != null)
             {
                 <img id='img-upload' class="img-fluid img-thumbnail" src="@Model.LogoPicture" alt="Preview Image" width="200" height="200" />
             }

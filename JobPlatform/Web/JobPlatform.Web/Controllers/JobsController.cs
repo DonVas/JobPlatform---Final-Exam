@@ -11,6 +11,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize(Roles = "Administrator, Moderator")]
     public class JobsController : BaseController
     {
         private readonly IJobService jobService;
@@ -41,7 +42,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteJobConfirmAsync(string id)
+        public async Task<IActionResult> DeleteJobConfirm(string id)
         {
             await this.jobService.DeleteJobById(id);
             return this.RedirectToAction("Index");

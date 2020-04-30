@@ -1,4 +1,6 @@
-﻿namespace JobPlatform.Web.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace JobPlatform.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +14,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class FileController : BaseController
     {
         private readonly IFileService fileService;

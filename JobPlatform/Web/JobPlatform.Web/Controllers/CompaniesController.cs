@@ -1,24 +1,16 @@
-﻿using JobPlatform.Web.ViewModels.Companies;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace JobPlatform.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using JobPlatform.Common;
     using JobPlatform.Data.Models;
-    using JobPlatform.Services.Data;
     using JobPlatform.Services.Data.Interfaces;
     using JobPlatform.Web.ViewModels.Companies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    //[Authorize(Roles = GlobalConstants.Administrator)]
-    //[Authorize(Roles = GlobalConstants.Moderator)]
-
+    [Authorize(Roles = "Administrator, Moderator")]
     public class CompaniesController : BaseController
     {
         private readonly IFileService fileService;
